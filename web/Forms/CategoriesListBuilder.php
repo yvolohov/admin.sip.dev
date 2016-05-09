@@ -62,7 +62,7 @@ class CategoriesListBuilder
                 $this->categoriesList[$category['id']] = $lines . $category['foreign_name'];
             }
             else {
-                $this->categoriesList[] = $category['id'];
+                $this->categoriesList[$category['id']] = $category['id'];
             }
 
             if ($isGroup) {

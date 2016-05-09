@@ -15,16 +15,16 @@
 
     <div class="row" >
         <div class="cell">
-
-            <form method="POST" action=".">
+            <form name="category" method="POST" action=".">
 
                 <div class="grid">
+                    <input type="hidden" name="category[id]" value="{{ form.getParam('id', 'value') }}"/>
 
                     <div class="row">
                         <div class="cell">
                             <div class="input-control input-text full-size">
                                 <label>URL name:</label>
-
+                                <input type="text" name="category[url_name]" value="{{ form.getParam('url_name', 'value') }}"/>
                             </div>
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                         <div class="cell">
                             <div class="input-control input-text full-size">
                                 <label>Foreign name:</label>
-
+                                <input type="text" name="category[foreign_name]" value="{{ form.getParam('foreign_name', 'value') }}"/>
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                         <div class="cell">
                             <div class="input-control input-text full-size">
                                 <label>Native name:</label>
-
+                                <input type="text" name="category[native_name]" value="{{ form.getParam('native_name', 'value') }}"/>
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                         <div class="cell">
                             <div class="input-control input-text">
                                 <label>Sort field:</label>
-
+                                <input type="text" name="category[sort_field]" value="{{ form.getParam('sort_field', 'value') }}"/>
                             </div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                         <div class="cell">
                             <div class="input-control input-text textarea full-size">
                                 <label>Description:</label>
-
+                                <textarea name="category[description]">{{ form.getParam('description', 'value') }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -69,7 +69,14 @@
                         <div class="cell">
                             <div class="input-control select">
                                 <label>Parent category:</label>
+                                <select name="category[parent_id]">
 
+                                    {% set skey = form.getParam('parent_id', 'value') %}
+                                    {% for key, value in form.getParam('parent_id', 'select_list') %}
+                                    <option value="{{ key }}" {{ (key == skey) ? 'selected' : '' }}>{{ value }}</option>
+                                    {% endfor %}
+
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -83,7 +90,6 @@
                 </div>
 
             </form>
-
         </div>
     </div>
 
