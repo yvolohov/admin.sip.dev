@@ -11,7 +11,48 @@ class CategoryModel extends BaseModel
 
     public function setCategory($categoryForm)
     {
-        
+        $returnStructure = array();
+        $conn = $this->getDB();
+        $conn->beginTransaction();
+
+        try {
+            $categoryState = $this->getCategoryState($categoryForm->getParam('id', 'value'));
+
+            switch ($categoryState) {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case -1;
+                    throw new \Exception('Bad category ID');
+                    break;
+            }
+
+            $conn->commit();
+            $returnStructure['success'] = True;
+        }
+        catch (\Exception $e) {
+            $conn->rollback();
+            $returnStructure['success'] = False;
+        }
+
+        return $returnStructure;
+    }
+
+    private function getCategoryState($categoryId)
+    {
+        if ($categoryId == '') {
+            return 0;
+        }
+
+        $result = $this->getDB()->fetchColumn(
+            'SELECT count(*) cnt FROM categories WHERE id = :id',
+            array(
+                'id' => $categoryId
+            )
+        );
+
+        return ($result > 0) ? 1 : -1;
     }
 
     public function getCategoryById($categoryId)
