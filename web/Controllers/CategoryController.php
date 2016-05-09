@@ -39,7 +39,7 @@ class CategoryController
         $categoryForm = new CategoryForm();
 
         if ($categoryForm->fillFromRequest($request)) {
-            // write data
+            $rs = $categoryForm->write($app);
         }
         else {
             $rs = $categoryForm->read($app, $categoryId);

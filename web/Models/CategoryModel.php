@@ -9,6 +9,11 @@ class CategoryModel extends BaseModel
         parent::__construct($db);
     }
 
+    public function setCategory($categoryForm)
+    {
+        
+    }
+
     public function getCategoryById($categoryId)
     {
         $result = $this->getDB()->fetchAssoc(

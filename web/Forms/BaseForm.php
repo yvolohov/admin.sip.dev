@@ -6,6 +6,7 @@ abstract class BaseForm
 {
     private $formName;
     private $fields;
+    private $errors;
 
     public function __construct($formName='form')
     {
@@ -18,9 +19,10 @@ abstract class BaseForm
         return $this->formName;
     }
 
-    public function setField($name, $type='text', $defValue='', $validators=array())
+    public function setField($name, $label, $type='text', $defValue='', $validators=array())
     {
         $this->fields[$name] = array(
+            'label' => $label,
             'type' => $type,
             'def_value' => $defValue,
             'value' => $defValue,
@@ -28,9 +30,10 @@ abstract class BaseForm
         );
     }
 
-    public function setSelectField($name, $defValue, $selectList=array(), $validators=array())
+    public function setSelectField($name, $label, $defValue, $selectList=array(), $validators=array())
     {
         $this->fields[$name] = array(
+            'label' => $label,
             'type' => 'select',
             'def_value' => $defValue,
             'value' => $defValue,
@@ -81,8 +84,10 @@ abstract class BaseForm
             return False;
         }
 
-        # load form data to form
-
+        foreach ($this->fields as $fieldName => $params) {
+            $this->fields[$fieldName]['value'] = (isset($formData[$fieldName]))
+                ? $formData[$fieldName] : $this->fields[$fieldName]['def_value'];
+        }
         return True;
     }
 
@@ -99,5 +104,30 @@ abstract class BaseForm
         foreach ($this->fields as $fieldName => $params) {
             $this->fields[$fieldName]['value'] = $this->fields[$fieldName]['def_value'];
         }
+        $this->errors = array();
+    }
+
+    public function validate($app)
+    {
+        $this->errors = array();
+
+        foreach ($this->fields as $fieldName => $params) {
+            $localErrors = $app['validator']->validate($params['value'], $params['validators']);
+
+            foreach ($localErrors as $localError) {
+                $this->errors[] = $params['label'] . ': ' . $localError->getMessage();
+            }
+        }
+        return (count($this->errors) == 0);
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    public function addError($error)
+    {
+        $this->errors[] = $error;
     }
 }
