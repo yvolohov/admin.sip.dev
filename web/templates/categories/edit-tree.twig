@@ -1,0 +1,20 @@
+{% extends "base.twig" %}
+
+{% block headMenu %}
+    {% include "head-menu.twig" with {'activePage': '/categories/edit-tree/'} only %}
+{% endblock %}
+
+{% block content %}
+<div class="grid condensed">
+    <div class="row">
+        <div class="cell">
+            <a href="/category/new/" class="button small-button rounded">New</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell">
+        {% include "categories/edit-tree-level.twig" %}
+        </div>
+    </div>
+</div>
+{% endblock %}

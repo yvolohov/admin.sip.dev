@@ -1,0 +1,40 @@
+{% extends "base.twig" %}
+
+{% block header %}
+<link rel="stylesheet" href="/assets/css/test-form.css" />
+<script type="text/javascript" src="/assets/js/test-form.js"></script>
+{% endblock %}
+
+{% block headMenu %}
+{% include "head-menu.twig" with {'activePage': '/test/page/'} only %}
+{% endblock %}
+
+{% block content %}
+    <div class="grid condensed">
+        <div class="row">
+            <div class="cell">
+                <h5 id="text-progress">Loading ...</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="cell">
+                <h3 id="text-question">Loading ...</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="cell">
+                <div class="input-control input-text full-size">
+                    <input id="input-answer" type="text" disabled="disabled">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="cell">
+                <div id="button-container">
+                    <button class="button rounded primary" id="button-answer" type="button" disabled="disabled">Answer</button>
+                    <button class="button rounded" id="button-help" type="button" disabled="disabled">Help</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

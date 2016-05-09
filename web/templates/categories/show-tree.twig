@@ -1,0 +1,15 @@
+{% extends "base.twig" %}
+
+{% block headMenu %}
+    {% include "head-menu.twig" with {'activePage': '/grammar-rules/show-tree/'} only %}
+{% endblock %}
+
+{% block content %}
+<div class="grid condensed">
+    <div class="row">
+        <div class="cell">
+        {% include "categories/show-tree-level.twig" %}
+        </div>
+    </div>
+</div>
+{% endblock %}

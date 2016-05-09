@@ -1,0 +1,15 @@
+{% if categories[key] is defined %}
+    <ul class="unstyled-list">
+        {% for category in categories[key] %}
+            <li>
+                {% if category.id != categoryId %}
+                    <a href="/questions/show-tree/{{ category.id }}/">{{ category.foreign_name }}</a>
+                {% else %}
+                    {{ category.foreign_name }}
+                {% endif %}
+
+                {% include "questions/show-tree-level.twig" with {'key': category.id} %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

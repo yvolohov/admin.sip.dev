@@ -1,0 +1,26 @@
+{% extends "base.twig" %}
+
+{% block headMenu %}
+    {% include "head-menu.twig" with {'activePage': ''} only %}
+{% endblock %}
+
+{% block content %}
+<div class="grid">
+
+    {% for category in categories %}
+    <div class="row">
+        <div class="cell">
+
+            {% if loop.last %}
+            <h3>{{ category.native_name }}</h3>
+            {% else %}
+            <a href="/grammar-rule/show/{{ category.id }}/{{ category.url_name }}/"><h3>{{ category.native_name }}</h3></a>
+            {% endif %}
+            <div>{{ category.description|raw }}</div>
+
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

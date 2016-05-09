@@ -1,0 +1,17 @@
+{
+  "name": "admin.sip",
+  "autoload": {
+    "psr-4": {
+      "Sip\\": "web/"
+    },
+    "files": [
+      "web/Controllers/Routes/routes.php"
+    ]
+  },
+  "require": {
+    "silex/silex": "~1.3",
+    "twig/twig": "^1.24",
+    "doctrine/dbal": "~2.2",
+    "symfony/validator": "2.7.*"
+  }
+}

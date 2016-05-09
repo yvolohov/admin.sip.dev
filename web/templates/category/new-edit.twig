@@ -1,0 +1,91 @@
+{% extends "base.twig" %}
+
+{% block headMenu %}
+    {% include "head-menu.twig" with {'activePage': ''} only %}
+{% endblock %}
+
+{% block content %}
+<div class="grid">
+
+    <div class="row" >
+        <div class="cell">
+            <a href="/categories/edit-tree/" class="button small-button rounded">To tree</a>
+        </div>
+    </div>
+
+    <div class="row" >
+        <div class="cell">
+
+            <form method="POST" action=".">
+
+                <div class="grid">
+
+                    <div class="row">
+                        <div class="cell">
+                            <div class="input-control input-text full-size">
+                                <label>URL name:</label>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="cell">
+                            <div class="input-control input-text full-size">
+                                <label>Foreign name:</label>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="cell">
+                            <div class="input-control input-text full-size">
+                                <label>Native name:</label>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="cell">
+                            <div class="input-control input-text">
+                                <label>Sort field:</label>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="cell">
+                            <div class="input-control input-text textarea full-size">
+                                <label>Description:</label>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="cell">
+                            <div class="input-control select">
+                                <label>Parent category:</label>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="cell">
+                            <button id="button_submit" type="submit" class="button rounded primary">Save</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

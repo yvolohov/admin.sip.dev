@@ -1,0 +1,27 @@
+#text-progress {
+    text-align: left;
+}
+
+#text-question {
+    text-align: center;
+}
+
+#text-hint {
+    text-align: center;
+    color: #FF0000;
+}
+
+#input-answer {
+    font-size: 20px;
+    color: #436EEE;
+    text-align: center;
+}
+
+#button-container {
+    text-align: center;
+}
+
+#button-answer, #button-help {
+    text-align: center;
+    width: 100px;
+}

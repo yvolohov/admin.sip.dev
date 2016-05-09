@@ -1,0 +1,82 @@
+{% extends "base.twig" %}
+
+{% block headMenu %}
+{% include "head-menu.twig" with {'activePage': '/questions/show/'} only %}
+{% endblock %}
+
+{% block content %}
+<div class="grid">
+
+    <div class="row cells12">
+
+        <div class="cell">
+            <a href="/question/new/" class="button small-button rounded">New</a>
+        </div>
+
+        <div class="cell colspan11">
+
+            {% if paginator.pages|length > 0 %}
+                <div class="pagination rounded place-right">
+                    {% if paginator.prevPage %}
+                        <a href="/questions/show/{{ paginator.prevPage }}/" class="item">&lt;</a>
+                    {% else %}
+                        <span class="item disabled">&lt;</span>
+                    {% endif %}
+
+                    {% for pageNum in paginator.pages %}
+                        {% if pageNum != paginator.currentPage %}
+                            <a href="/questions/show/{{ pageNum }}/" class="item">{{ pageNum }}</a>
+                        {% else %}
+                            <span class="item current">{{ pageNum }}</span>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if paginator.nextPage %}
+                        <a href="/questions/show/{{ paginator.nextPage }}/" class="item">&gt;</a>
+                    {% else %}
+                        <span class="item disabled">&gt;</span>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="cell">
+            <table class="table hovered striped">
+                <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Foreign sentence</th>
+                    <th>Native sentence</th>
+                    <th>Templates</th>
+                    <th>Sentences</th>
+                    <th>Open</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for question in questions %}
+                    <tr>
+                        <td>{{ question.category }}</td>
+                        <td>{{ question.foreign_sentence }}</td>
+                        <td>{{ question.native_sentence }}</td>
+                        <td>{{ question.templates_cnt }}</td>
+                        <td>{{ question.sentences_cnt }}</td>
+                        <td>
+                            <a href="/question/edit/{{ question.id }}/" class="button small-button rounded">
+                                Open
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
