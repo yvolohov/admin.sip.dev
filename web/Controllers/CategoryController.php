@@ -48,6 +48,9 @@ class CategoryController
         if ($rs['result'] == 'abort') {
             $app->abort(404);
         }
+        else if ($rs['result'] == 'redirect') {
+            return $app->redirect(sprintf('/category/edit/%s/', $rs['id']));
+        }
 
         return $app['twig']->render(
             'category/new-edit.twig',

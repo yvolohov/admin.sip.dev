@@ -4,6 +4,10 @@ namespace Sip\Models;
 
 class CategoryModel extends BaseModel
 {
+    const NEW_CATEGORY = 0;
+    const EXISTING_CATEGORY = 1;
+    const WRONG_CATEGORY = -1;
+
     public function __construct($db)
     {
         parent::__construct($db);
@@ -11,7 +15,7 @@ class CategoryModel extends BaseModel
 
     public function setCategory($categoryForm)
     {
-        $returnStructure = array();
+        $result = Null;
         $conn = $this->getDB();
         $conn->beginTransaction();
 
@@ -19,30 +23,32 @@ class CategoryModel extends BaseModel
             $categoryState = $this->getCategoryState($categoryForm->getParam('id', 'value'));
 
             switch ($categoryState) {
-                case 0:
+                case self::NEW_CATEGORY:
+                    $result = $this->insertCategory($categoryForm);
                     break;
-                case 1:
+                case self::EXISTING_CATEGORY:
+                    $result = $this->updateCategory($categoryForm);
                     break;
-                case -1;
-                    throw new \Exception('Bad category ID');
+                case self::WRONG_CATEGORY:
+                    $categoryForm->addError('Bad category Id');
+                    $result = Null;
                     break;
             }
-
             $conn->commit();
-            $returnStructure['success'] = True;
         }
         catch (\Exception $e) {
             $conn->rollback();
-            $returnStructure['success'] = False;
+            $categoryForm->addError($e->getMessage());
+            $result = Null;
         }
 
-        return $returnStructure;
+        return $result;
     }
 
     private function getCategoryState($categoryId)
     {
         if ($categoryId == '') {
-            return 0;
+            return self::NEW_CATEGORY;
         }
 
         $result = $this->getDB()->fetchColumn(
@@ -52,7 +58,43 @@ class CategoryModel extends BaseModel
             )
         );
 
-        return ($result > 0) ? 1 : -1;
+        return ($result > 0) ? self::EXISTING_CATEGORY : self::WRONG_CATEGORY;
+    }
+
+    private function insertCategory($categoryForm)
+    {
+        $conn = $this->getDB();
+        $conn->executeUpdate(
+            'INSERT INTO categories (url_name, foreign_name,
+            native_name, sort_field, parent_id) VALUES (:url_name,
+            :foreign_name, :native_name, :sort_field, :parent_id)',
+            array(
+                'url_name' => $categoryForm->getParam('url_name', 'value'),
+                'foreign_name' => $categoryForm->getParam('foreign_name', 'value'),
+                'native_name' => $categoryForm->getParam('native_name', 'value'),
+                'sort_field' => $categoryForm->getParam('sort_field', 'value'),
+                'parent_id' => $categoryForm->getParam('parent_id', 'value')
+            )
+        );
+        return $conn->lastInsertId();
+    }
+
+    private function updateCategory($categoryForm)
+    {
+        $id = $categoryForm->getParam('id', 'value');
+        $this->getDB()->executeUpdate(
+            'UPDATE categories SET url_name = :url_name, foreign_name = :foreign_name,
+            native_name = :native_name, sort_field = :sort_field, parent_id = :parent_id WHERE id = :id',
+            array(
+                'url_name' => $categoryForm->getParam('url_name', 'value'),
+                'foreign_name' => $categoryForm->getParam('foreign_name', 'value'),
+                'native_name' => $categoryForm->getParam('native_name', 'value'),
+                'sort_field' => $categoryForm->getParam('sort_field', 'value'),
+                'parent_id' => $categoryForm->getParam('parent_id', 'value'),
+                'id' => $id
+            )
+        );
+        return $id;
     }
 
     public function getCategoryById($categoryId)
