@@ -14,7 +14,7 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
         'driver' => 'pdo_mysql',
         'host' => 'localhost',
-        'dbname' => 'dip_dev',
+        'dbname' => 'flp2_dev',
         'user' => 'root',
         'password' => '3091006634',
         'charset' => 'utf8'

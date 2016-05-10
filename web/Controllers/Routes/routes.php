@@ -35,6 +35,16 @@ function setRoutes($app)
     $app->get('/questions/show-tree/{categoryId}/', $route)
         ->assert('categoryId', '\d+');
 
+    $route = 'Sip\Controllers\QuestionController::newEdit';
+    $app->match('/question/new/', $route)
+        ->method('GET|POST');
+    $app->match('/question/edit/{questionId}/', $route)
+        ->method('GET|POST')
+        ->assert('questionId', '\d+');
+
+    $route = 'Sip\Controllers\QuestionController::getSentences';
+    $app->post('/question/get-sentences/', $route);
+
     $route = 'Sip\Controllers\TestController::page';
     $app->get('/test/page/', $route);
 

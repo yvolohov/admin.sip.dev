@@ -1,0 +1,83 @@
+{% extends "base.twig" %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block headMenu %}
+    {% include "head-menu.twig" with {'activePage': ''} only %}
+{% endblock %}
+
+{% block content %}
+<div class="grid">
+
+    <div class="row">
+        <div class="cell">
+            <a href="/questions/show/" class="button small-button rounded">To list</a>
+            <a href="/questions/show-tree/" class="button small-button rounded">To tree</a>
+        </div>
+    </div>
+
+    {% set errors = form.getErrors() %}
+    {% if errors|length > 0 %}
+    <div class="row">
+        <div class="cell">
+            {% for error in errors %}
+            <span class="badge">{{ error }}</span><br/>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <form name="question" method="POST" action=".">
+
+        <input type="hidden" name="question[id]" value="{{ form.getParam('id', 'value') }}"/>
+
+        <div class="row">
+            <div class="cell">
+                <div class="input-control select">
+                    <label>{{ form.getParam('category_id', 'label') }}:</label>
+                    <select name="question[category_id]">
+
+                        {% set skey = form.getParam('category_id', 'value') %}
+                        {% for key, value in form.getParam('category_id', 'select_list') %}
+                        <option value="{{ key }}" {{ (key == skey) ? 'selected' : '' }}>{{ value }}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="cell">
+                <div class="input-control input-text full-size">
+                    <label>{{ form.getParam('foreign_sentence', 'label') }}:</label>
+                    <input type="text" name="question[foreign_sentence]" value="{{ form.getParam('foreign_sentence', 'value') }}"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="cell">
+                <div class="input-control input-text full-size">
+                    <label>{{ form.getParam('native_sentence', 'label') }}:</label>
+                    <input type="text" name="question[native_sentence]" value="{{ form.getParam('native_sentence', 'value') }}"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="cell">
+                <button class="button rounded" id="button-add-template" type="button">Add template</button>
+                <button class="button rounded" id="button-remove-templates" type="button">Remove templates</button>
+                <button class="button rounded" id="button-fill-sentences" type="button">Fill sentences</button>
+                <button class="button rounded" id="button-clear-sentences" type="button">Clear sentences</button>
+                <button class="button rounded primary" id="button_submit" type="submit">Save form</button>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+{% endblock %}
