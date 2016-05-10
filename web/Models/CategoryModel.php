@@ -7,6 +7,8 @@ class CategoryModel extends BaseModel
     const NEW_CATEGORY = 0;
     const EXISTING_CATEGORY = 1;
     const WRONG_CATEGORY = -1;
+    const NEW_DESCRIPTION = 0;
+    const EXISTING_DESCRIPTION = 1;
 
     public function __construct($db)
     {
@@ -31,9 +33,21 @@ class CategoryModel extends BaseModel
                     break;
                 case self::WRONG_CATEGORY:
                     $categoryForm->addError('Bad category Id');
-                    $result = Null;
+                    $conn->rollback();
+                    return Null;
+            }
+
+            $descriptionState = $this->getDescriptionState($result);
+
+            switch ($descriptionState) {
+                case self::NEW_DESCRIPTION:
+                    $this->insertDescription($result, $categoryForm);
+                    break;
+                case self::EXISTING_DESCRIPTION:
+                    $this->updateDescription($result, $categoryForm);
                     break;
             }
+
             $conn->commit();
         }
         catch (\Exception $e) {
@@ -95,6 +109,41 @@ class CategoryModel extends BaseModel
             )
         );
         return $id;
+    }
+
+    private function getDescriptionState($categoryId)
+    {
+        $result = $this->getDB()->fetchColumn(
+            'SELECT count(*) cnt FROM descriptions WHERE category_id = :category_id',
+            array(
+                'category_id' => $categoryId
+            )
+        );
+        return ($result > 0) ? self::EXISTING_DESCRIPTION : self::NEW_DESCRIPTION;
+    }
+
+    private function insertDescription($categoryId, $categoryForm)
+    {
+        $this->getDB()->executeUpdate(
+            'INSERT INTO descriptions (description, category_id)
+            VALUES (:description, :category_id)',
+            array(
+                'description' => $categoryForm->getParam('description', 'value'),
+                'category_id' => $categoryId
+            )
+        );
+    }
+
+    private function updateDescription($categoryId, $categoryForm)
+    {
+        $this->getDB()->executeUpdate(
+            'UPDATE descriptions SET description = :description
+            WHERE category_id = :category_id',
+            array(
+                'description' => $categoryForm->getParam('description', 'value'),
+                'category_id' => $categoryId
+            )
+        );
     }
 
     public function getCategoryById($categoryId)

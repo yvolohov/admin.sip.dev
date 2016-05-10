@@ -87,8 +87,9 @@ class CategoryForm extends BaseForm
         $categoryId = $categoryModel->setCategory($this);
 
         if ($categoryId == Null) {
-            array('result' => 'show');
+            return array('result' => 'show');
         }
+
         return array('result' => 'redirect', 'id' => $categoryId);
     }
 }
