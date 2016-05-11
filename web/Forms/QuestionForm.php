@@ -40,6 +40,34 @@ class QuestionForm extends BaseForm
         }
 
         $this->fillFromDB($question);
+        $this->readTemplates($questionModel, $questionId);
+        $this->readSentences($questionModel, $questionId);
         return array('result' => 'show');
+    }
+
+    private function readTemplates($questionModel, $questionId)
+    {
+        $templates = $questionModel->getTemplatesByQuestionId($questionId);
+        $templateForms = array();
+
+        foreach ($templates as $template) {
+            $templateForm = new TemplateForm();
+            $templateForm->fillFromDB($template);
+            $templateForms[] = $templateForm;
+        }
+        return $templateForms;
+    }
+
+    private function readSentences($questionModel, $questionId)
+    {
+        $sentences = $questionModel->getSentencesByQuestionId($questionId);
+        $sentenceForms = array();
+
+        foreach ($sentences as $sentence) {
+            $sentenceForm = new SentenceForm();
+            $sentenceForm->fillFromDB($sentence);
+            $sentenceForms[] = $sentenceForm;
+        }
+        return $sentenceForms;
     }
 }

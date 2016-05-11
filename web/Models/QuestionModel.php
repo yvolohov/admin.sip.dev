@@ -19,4 +19,26 @@ class QuestionModel extends BaseModel
         );
         return $result;
     }
+
+    public function getTemplatesByQuestionId($questionId)
+    {
+        return $this->getDB()->fetchAll(
+            'SELECT * FROM templates
+            WHERE question_id = :question_id ORDER BY id',
+            array(
+                'question_id' => $questionId
+            )
+        );
+    }
+
+    public function getSentencesByQuestionId($questionId)
+    {
+        return $this->getDB()->fetchAll(
+            'SELECT * FROM sentences
+            WHERE question_id = :question_id ORDER BY id',
+            array(
+                'question_id' => $questionId
+            )
+        );
+    }
 }
