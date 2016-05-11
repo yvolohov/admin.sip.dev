@@ -42,6 +42,15 @@ abstract class BaseForm
         );
     }
 
+    public function setListField($name, $value=array())
+    {
+        $this->fields[$name] = array(
+            'type' => 'list',
+            'def_value' => array(),
+            'value' => $value
+        );
+    }
+
     public function removeField($name)
     {
         if (isset($this->fields[$name])) {
@@ -85,6 +94,11 @@ abstract class BaseForm
         }
 
         foreach ($this->fields as $fieldName => $params) {
+
+            if ($params['type'] == 'list') {
+                continue;
+            }
+
             $this->fields[$fieldName]['value'] = (isset($formData[$fieldName]))
                 ? $formData[$fieldName] : $this->fields[$fieldName]['def_value'];
         }
@@ -94,6 +108,11 @@ abstract class BaseForm
     public function fillFromDB($data)
     {
         foreach ($this->fields as $fieldName => $params) {
+
+            if ($params['type'] == 'list') {
+                continue;
+            }
+
             $this->fields[$fieldName]['value'] = (isset($data[$fieldName]))
                 ? $data[$fieldName] : $this->fields[$fieldName]['def_value'];
         }
@@ -104,6 +123,7 @@ abstract class BaseForm
         foreach ($this->fields as $fieldName => $params) {
             $this->fields[$fieldName]['value'] = $this->fields[$fieldName]['def_value'];
         }
+
         $this->errors = array();
     }
 
@@ -112,6 +132,11 @@ abstract class BaseForm
         $this->errors = array();
 
         foreach ($this->fields as $fieldName => $params) {
+
+            if ($params['type'] == 'list') {
+                continue;
+            }
+
             $localErrors = $app['validator']->validate($params['value'], $params['validators']);
 
             foreach ($localErrors as $localError) {

@@ -2,7 +2,7 @@
 
 namespace Sip\Forms;
 
-class SentenceForm
+class SentenceForm extends BaseForm
 {
     public function __construct()
     {

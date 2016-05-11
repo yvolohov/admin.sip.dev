@@ -20,6 +20,8 @@ class QuestionForm extends BaseForm
         ));
         $this->setField('foreign_sentence', 'Foreign sentence', 'text', '');
         $this->setField('native_sentence', 'Native sentence', 'text', '');
+        $this->setListField('templates_list');
+        $this->setListField('sentences_list');
     }
 
     public function read($app, $questionId)
@@ -40,8 +42,10 @@ class QuestionForm extends BaseForm
         }
 
         $this->fillFromDB($question);
-        $this->readTemplates($questionModel, $questionId);
-        $this->readSentences($questionModel, $questionId);
+        $templates = $this->readTemplates($questionModel, $questionId);
+        $sentences = $this->readSentences($questionModel, $questionId);
+        $this->setParam('templates_list', 'value', $templates);
+        $this->setParam('sentences_list', 'value', $sentences);
         return array('result' => 'show');
     }
 
