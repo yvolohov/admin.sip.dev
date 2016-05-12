@@ -55,20 +55,22 @@ $(document).ready(function()
     {
         this.fillErrors = function(errors)
         {
-            var divMessages = $("#div-messages");
+            var messages = $("#err-messages");
 
             $.each(errors, function(index, error)
             {
-                var divMessage = $(document.createElement("div"));
-                divMessage.addClass("div-message");
-                divMessage.html(error);
-                divMessages.append(divMessage);
+                var message = $(document.createElement("span"));
+                var br = $(document.createElement("br"));
+                message.addClass("err-message badge");
+                message.html(error);
+                messages.append(message, br);
             });
         };
 
         this.clearErrors = function()
         {
-            $("#div-messages .div-message").remove();
+            $("#err-messages .err-message").remove();
+            $("#err-messages br").remove();
         };
     }
 
@@ -152,9 +154,11 @@ $(document).ready(function()
 
         this.clearSentencesTable = function()
         {
+            var self = this;
             $("#sentences_table tr[id ^= sentences_row_]").remove();
             $("#foreign_sentence").val("");
             $("#native_sentence").val("");
+            this.errorsManager.clearErrors();
         };
 
         this.getSentences = function()
@@ -179,6 +183,7 @@ $(document).ready(function()
                         {
                             self.errorsManager.fillErrors(data.errors);
                         }
+                        console.log(data);
                     },
                     error: function()
                     {

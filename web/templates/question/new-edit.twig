@@ -19,15 +19,16 @@
     </div>
 
     {% set errors = form.getErrors() %}
-    {% if errors|length > 0 %}
     <div class="row">
         <div class="cell">
+
             {% for error in errors %}
             <span class="badge">{{ error }}</span><br/>
             {% endfor %}
+
+            <span id="err-messages"></span>
         </div>
     </div>
-    {% endif %}
 
     <form name="question" method="POST" action=".">
 

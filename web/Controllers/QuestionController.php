@@ -57,7 +57,7 @@ class QuestionController
                 }
             }
             else {
-
+                $returnStructure['errors'][] = $sentencesStructure['error_description'];
             }
         }
 
