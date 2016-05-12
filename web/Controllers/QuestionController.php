@@ -35,20 +35,18 @@ class QuestionController
 
     public function getSentences(Request $request, Application $app)
     {
-        $returnStructure = array(
-            'sentences' => array(),
-            'errors' => array()
-        );
+        $returnStructure = array('sentences' => array(), 'errors' => array());
+        $templates = $request->request->get('templates');
 
-        $postData = $request->request->all();
-        $templates = \Sip\Lib\parseRequest($postData, 'templates');
+        if (!is_array($templates)) {
+            $returnStructure['errors'][] = 'Templates are not valid !!!';
+            return new JsonResponse($returnStructure);
+        }
 
         foreach ($templates as $template) {
-
-            $sentencesStructure = SentencesBuilder::getSentencesTableWithTokens(
-                $template['foreign_template'],
-                $template['native_template']
-            );
+            $foreignTemplate = (isset($template['foreign_template'])) ? $template['foreign_template'] : '';
+            $nativeTemplate = (isset($template['native_template'])) ? $template['native_template'] : '';
+            $sentencesStructure = SentencesBuilder::getSentencesTableWithTokens($foreignTemplate, $nativeTemplate);
 
             if ($sentencesStructure['success']) {
 
