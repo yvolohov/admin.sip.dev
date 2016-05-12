@@ -5,7 +5,8 @@
       "Sip\\": "web/"
     },
     "files": [
-      "web/Controllers/Routes/routes.php"
+      "web/Controllers/Routes/routes.php",
+      "web/Lib/parser.php"
     ]
   },
   "require": {

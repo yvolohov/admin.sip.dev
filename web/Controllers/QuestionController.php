@@ -2,9 +2,11 @@
 
 namespace Sip\Controllers;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Application;
 use Sip\Forms\QuestionForm;
+use Sip\Lib\SentencesBuilder;
 
 class QuestionController
 {
@@ -33,6 +35,32 @@ class QuestionController
 
     public function getSentences(Request $request, Application $app)
     {
-        return '';
+        $returnStructure = array(
+            'sentences' => array(),
+            'errors' => array()
+        );
+
+        $postData = $request->request->all();
+        $templates = \Sip\Lib\parseRequest($postData, 'templates');
+
+        foreach ($templates as $template) {
+
+            $sentencesStructure = SentencesBuilder::getSentencesTableWithTokens(
+                $template['foreign_template'],
+                $template['native_template']
+            );
+
+            if ($sentencesStructure['success']) {
+
+                foreach ($sentencesStructure['data'] as $sentence) {
+                    $returnStructure['sentences'][] = $sentence;
+                }
+            }
+            else {
+
+            }
+        }
+
+        return new JsonResponse($returnStructure);
     }
 }

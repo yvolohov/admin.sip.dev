@@ -31,5 +31,5 @@ $app['config'] = array(
 );
 
 /* Connect routes */
-Sip\Controllers\Routes\setRoutes($app);
+\Sip\Controllers\Routes\setRoutes($app);
 $app->run();
