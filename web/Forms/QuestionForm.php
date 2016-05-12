@@ -11,7 +11,7 @@ class QuestionForm extends BaseForm
     public function __construct()
     {
         parent::__construct('question');
-        $this->setField('id', 'Question Id', 'hidden', array(
+        $this->setField('id', 'Question Id', 'hidden', '', array(
             new Assert\Regex(array('pattern' => '/^(|\d+)$/'))
         ));
         $this->setSelectField('category_id', 'Category', 0, array(), array(
@@ -47,6 +47,26 @@ class QuestionForm extends BaseForm
         $this->setParam('templates_list', 'value', $templates);
         $this->setParam('sentences_list', 'value', $sentences);
         return array('result' => 'show');
+    }
+
+    public function write($app)
+    {
+        $categoriesModel = new CategoriesModel($app['db']);
+        $categoriesListBuilder = new CategoriesListBuilder($categoriesModel);
+        $this->setParam('category_id', 'select_list', $categoriesListBuilder->getList());
+
+        if (!$this->validate($app)) {
+            return array('result' => 'show');
+        }
+
+        $questionModel = new QuestionModel($app['db']);
+        $questionId = $questionModel->setQuestion($this);
+
+        if ($questionId == Null) {
+            return array('result' => 'show');
+        }
+
+        return array('result' => 'redirect', 'id' => $questionId);
     }
 
     private function readTemplates($questionModel, $questionId)

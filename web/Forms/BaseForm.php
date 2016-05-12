@@ -51,6 +51,23 @@ abstract class BaseForm
         );
     }
 
+    public function getListFieldLength($name)
+    {
+        if (!isset($this->fields[$name])) {
+            return 0;
+        }
+
+        if (!isset($this->fields[$name]['type'])) {
+            return 0;
+        }
+
+        if ($this->fields[$name]['type'] != 'list') {
+            return 0;
+        }
+
+        return count($this->fields[$name]['value']);
+    }
+
     public function removeField($name)
     {
         if (isset($this->fields[$name])) {

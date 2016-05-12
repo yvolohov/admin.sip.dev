@@ -15,7 +15,7 @@ class QuestionController
         $questionForm = new QuestionForm();
 
         if ($questionForm->fillFromRequest($request)) {
-
+            $rs = $questionForm->write($app);
         }
         else {
             $rs = $questionForm->read($app, $questionId);
@@ -23,6 +23,9 @@ class QuestionController
 
         if ($rs['result'] == 'abort') {
             $app->abort(404);
+        }
+        else if ($rs['result'] == 'redirect') {
+            return $app->redirect(sprintf('/question/edit/%s/', $rs['id']));
         }
 
         return $app['twig']->render(
