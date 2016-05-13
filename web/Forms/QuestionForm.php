@@ -8,6 +8,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class QuestionForm extends BaseForm
 {
+    const TEMPLATES_REQUEST_PREFIX = 'templates';
+    const SENTENCES_REQUEST_PREFIX = 'sentences';
+
     public function __construct()
     {
         parent::__construct('question');
@@ -49,12 +52,23 @@ class QuestionForm extends BaseForm
         return array('result' => 'show');
     }
 
-    public function write($app, $formData)
+    public function write($app, $request, $formData)
     {
         $this->fillFromRequest($formData);
         $categoriesModel = new CategoriesModel($app['db']);
         $categoriesListBuilder = new CategoriesListBuilder($categoriesModel);
         $this->setParam('category_id', 'select_list', $categoriesListBuilder->getList());
+
+        $templatesData = $request->request->get(self::TEMPLATES_REQUEST_PREFIX);
+        $sentencesData = $request->request->get(self::SENTENCES_REQUEST_PREFIX);
+
+        if (is_array($templatesData)) {
+            $this->writeTemplates($templatesData);
+        }
+
+        if (is_array($sentencesData)) {
+            $this->writeSentences($sentencesData);
+        }
 
         if (!$this->validate($app)) {
             return array('result' => 'show');
@@ -94,5 +108,29 @@ class QuestionForm extends BaseForm
             $sentenceForms[] = $sentenceForm;
         }
         return $sentenceForms;
+    }
+
+    private function writeTemplates($templates)
+    {
+        $templatesList = array();
+
+        foreach ($templates as $template) {
+            $templateForm = new TemplateForm();
+            $templateForm->fillFromRequest($template);
+            $templatesList[] = $templateForm;
+        }
+        $this->setParam('templates_list', 'value', $templatesList);
+    }
+
+    private function writeSentences($sentences)
+    {
+        $sentencesList = array();
+
+        foreach ($sentences as $sentence) {
+            $sentenceForm = new SentenceForm();
+            $sentenceForm->fillFromRequest($sentence);
+            $sentencesList[] = $sentenceForm;
+        }
+        $this->setParam('sentences_list', 'value', $sentencesList);
     }
 }

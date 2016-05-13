@@ -94,7 +94,7 @@
                     <tbody>
 
                         {% for key, templateForm in form.getParam('templates_list', 'value') %}
-                        <tr>
+                        <tr id="templates_row_{{ loop.index0 }}">
                             <td>
                                 <label class="input-control input-checkbox small-check">
                                     <input class="templates_checkbox" type="checkbox"

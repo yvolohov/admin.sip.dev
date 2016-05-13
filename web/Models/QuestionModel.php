@@ -68,6 +68,8 @@ class QuestionModel extends BaseModel
                     return Null;
             }
 
+            $this->rewriteTemplates($result, $questionForm);
+            $this->rewriteSentences($result, $questionForm);
             $conn->commit();
         }
         catch (\Exception $e) {
@@ -131,5 +133,58 @@ class QuestionModel extends BaseModel
             )
         );
         return $id;
+    }
+
+    private function rewriteTemplates($questionId, $questionForm)
+    {
+        $conn = $this->getDB();
+        $conn->executeUpdate(
+            'DELETE FROM templates WHERE question_id = :question_id',
+            array(
+                'question_id' => $questionId
+            )
+        );
+
+        $templatesList = $questionForm->getParam('templates_list', 'value');
+
+        foreach ($templatesList as $key => $templateForm) {
+            $conn->executeUpdate(
+                'INSERT INTO templates (id, question_id, native_template, foreign_template)
+                VALUES (:id, :question_id, :native_template, :foreign_template)',
+                array(
+                    'id' => $key + 1,
+                    'question_id' => $questionId,
+                    'native_template' => $templateForm->getParam('native_template', 'value'),
+                    'foreign_template' => $templateForm->getParam('foreign_template', 'value')
+                )
+            );
+        }
+    }
+
+    private function rewriteSentences($questionId, $questionForm)
+    {
+        $conn = $this->getDB();
+        $conn->executeUpdate(
+            'DELETE FROM sentences WHERE question_id = :question_id',
+            array(
+                'question_id' => $questionId
+            )
+        );
+
+        $sentencesList = $questionForm->getParam('sentences_list', 'value');
+
+        foreach ($sentencesList as $key => $sentenceForm) {
+            $conn->executeUpdate(
+                'INSERT INTO sentences (id, question_id, native_sentence, foreign_sentence, parts)
+                VALUES (:id, :question_id, :native_sentence, :foreign_sentence, :parts)',
+                array(
+                    'id' => $key + 1,
+                    'question_id' => $questionId,
+                    'native_sentence' => $sentenceForm->getParam('native_sentence', 'value'),
+                    'foreign_sentence' => $sentenceForm->getParam('foreign_sentence', 'value'),
+                    'parts' => $sentenceForm->getParam('parts', 'value')
+                )
+            );
+        }
     }
 }

@@ -19,7 +19,7 @@ class QuestionController
             $rs = $questionForm->read($app, $questionId);
         }
         else {
-            $rs = $questionForm->write($app, $formData);
+            $rs = $questionForm->write($app, $request, $formData);
         }
 
         if ($rs['result'] == 'abort') {
