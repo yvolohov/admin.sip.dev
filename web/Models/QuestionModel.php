@@ -105,8 +105,8 @@ class QuestionModel extends BaseModel
             array(
                 'foreign_sentence' => $questionForm->getParam('foreign_sentence', 'value'),
                 'native_sentence' => $questionForm->getParam('native_sentence', 'value'),
-                'templates_cnt' => $questionForm->getListFieldLength('templates_list'),
-                'sentences_cnt' => $questionForm->getListFieldLength('sentences_list'),
+                'templates_cnt' => count($questionForm->getParam('templates_list', 'value')),
+                'sentences_cnt' => count($questionForm->getParam('sentences_list', 'value')),
                 'category_id' => $questionForm->getParam('category_id', 'value')
             )
         );
@@ -124,8 +124,8 @@ class QuestionModel extends BaseModel
             array(
                 'foreign_sentence' => $questionForm->getParam('foreign_sentence', 'value'),
                 'native_sentence' => $questionForm->getParam('native_sentence', 'value'),
-                'templates_cnt' => $questionForm->getListFieldLength('templates_list'),
-                'sentences_cnt' => $questionForm->getListFieldLength('sentences_list'),
+                'templates_cnt' => count($questionForm->getParam('templates_list', 'value')),
+                'sentences_cnt' => count($questionForm->getParam('sentences_list', 'value')),
                 'category_id' => $questionForm->getParam('category_id', 'value'),
                 'id' => $id
             )

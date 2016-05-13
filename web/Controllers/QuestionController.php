@@ -13,12 +13,13 @@ class QuestionController
     public function newEdit(Request $request, Application $app, $questionId=Null)
     {
         $questionForm = new QuestionForm();
+        $formData = $request->request->get($questionForm->getFormName());
 
-        if ($questionForm->fillFromRequest($request)) {
-            $rs = $questionForm->write($app);
+        if ($formData == Null) {
+            $rs = $questionForm->read($app, $questionId);
         }
         else {
-            $rs = $questionForm->read($app, $questionId);
+            $rs = $questionForm->write($app, $formData);
         }
 
         if ($rs['result'] == 'abort') {

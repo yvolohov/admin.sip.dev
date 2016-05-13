@@ -37,12 +37,13 @@ class CategoryController
     public function newEdit(Request $request, Application $app, $categoryId=Null)
     {
         $categoryForm = new CategoryForm();
+        $formData = $request->request->get($categoryForm->getFormName());
 
-        if ($categoryForm->fillFromRequest($request)) {
-            $rs = $categoryForm->write($app);
+        if ($formData == Null) {
+            $rs = $categoryForm->read($app, $categoryId);
         }
         else {
-            $rs = $categoryForm->read($app, $categoryId);
+            $rs = $categoryForm->write($app, $formData);
         }
 
         if ($rs['result'] == 'abort') {

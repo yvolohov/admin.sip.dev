@@ -58,8 +58,9 @@ class CategoryForm extends BaseForm
         return array('result' => 'show');
     }
 
-    public function write($app)
+    public function write($app, $formData)
     {
+        $this->fillFromRequest($formData);
         $categoriesModel = new CategoriesModel($app['db']);
         $categoriesListBuilder = new CategoriesListBuilder($categoriesModel);
 

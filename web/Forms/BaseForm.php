@@ -51,23 +51,6 @@ abstract class BaseForm
         );
     }
 
-    public function getListFieldLength($name)
-    {
-        if (!isset($this->fields[$name])) {
-            return 0;
-        }
-
-        if (!isset($this->fields[$name]['type'])) {
-            return 0;
-        }
-
-        if ($this->fields[$name]['type'] != 'list') {
-            return 0;
-        }
-
-        return count($this->fields[$name]['value']);
-    }
-
     public function removeField($name)
     {
         if (isset($this->fields[$name])) {
@@ -102,12 +85,10 @@ abstract class BaseForm
         return $this->fields[$fieldName][$paramName];
     }
 
-    public function fillFromRequest($request)
+    public function fillFromRequest($formData)
     {
-        $formData = $request->request->get($this->getFormName());
-
-        if ($formData == Null) {
-            return False;
+        if (!is_array($formData)) {
+            return;
         }
 
         foreach ($this->fields as $fieldName => $params) {
@@ -119,7 +100,6 @@ abstract class BaseForm
             $this->fields[$fieldName]['value'] = (isset($formData[$fieldName]))
                 ? $formData[$fieldName] : $this->fields[$fieldName]['def_value'];
         }
-        return True;
     }
 
     public function fillFromDB($data)
