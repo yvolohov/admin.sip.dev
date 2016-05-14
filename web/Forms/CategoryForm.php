@@ -52,7 +52,7 @@ class CategoryForm extends BaseForm
             return array('result' => 'abort');
         }
 
-        $this->fillFromDB($category);
+        $this->fillForm($category);
         $categoriesListBuilder->setExceptCategoryOption($categoryId);
         $this->setParam('parent_id', 'select_list', $categoriesListBuilder->getList());
         return array('result' => 'show');
@@ -60,7 +60,7 @@ class CategoryForm extends BaseForm
 
     public function write($app, $formData)
     {
-        $this->fillFromRequest($formData);
+        $this->fillForm($formData);
         $categoriesModel = new CategoriesModel($app['db']);
         $categoriesListBuilder = new CategoriesListBuilder($categoriesModel);
 

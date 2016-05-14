@@ -4,6 +4,24 @@ require_once __DIR__.'/../vendor/autoload.php';
 $app = new Silex\Application();
 $app['debug'] = True;
 
+$dbOptions = array(
+    'driver' => 'pdo_mysql',
+    'host' => 'localhost',
+    'dbname' => 'flp_dev',
+    'user' => 'root',
+    'password' => '3091006634',
+    'charset' => 'utf8'
+);
+
+$configOptions = array(
+    'test_questions_count' => 20,
+    'test_sentences_count' => 2
+);
+
+if (file_exists(__DIR__.'/settings.php')) {
+    require_once __DIR__.'/settings.php';
+}
+
 /* Twig template engine */
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/templates'
@@ -11,24 +29,14 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 
 /* Database */
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
-    'db.options' => array(
-        'driver' => 'pdo_mysql',
-        'host' => 'localhost',
-        'dbname' => 'dip_dev',
-        'user' => 'root',
-        'password' => '3091006634',
-        'charset' => 'utf8'
-    )
+    'db.options' => $dbOptions
 ));
 
 /* Validation */
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 
 /* Test config */
-$app['config'] = array(
-    'test_questions_count' => 20,
-    'test_sentences_count' => 2
-);
+$app['config'] = $configOptions;
 
 /* Connect routes */
 \Sip\Controllers\Routes\setRoutes($app);

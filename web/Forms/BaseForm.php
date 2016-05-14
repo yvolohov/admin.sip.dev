@@ -21,6 +21,10 @@ abstract class BaseForm
 
     public function setField($name, $label, $type='text', $defValue='', $validators=array())
     {
+        if ($type == 'list' || $type == 'select') {
+            return;
+        }
+
         $this->fields[$name] = array(
             'label' => $label,
             'type' => $type,
@@ -85,7 +89,7 @@ abstract class BaseForm
         return $this->fields[$fieldName][$paramName];
     }
 
-    public function fillFromRequest($formData)
+    public function fillForm($formData)
     {
         if (!is_array($formData)) {
             return;
@@ -99,19 +103,6 @@ abstract class BaseForm
 
             $this->fields[$fieldName]['value'] = (isset($formData[$fieldName]))
                 ? $formData[$fieldName] : $this->fields[$fieldName]['def_value'];
-        }
-    }
-
-    public function fillFromDB($data)
-    {
-        foreach ($this->fields as $fieldName => $params) {
-
-            if ($params['type'] == 'list') {
-                continue;
-            }
-
-            $this->fields[$fieldName]['value'] = (isset($data[$fieldName]))
-                ? $data[$fieldName] : $this->fields[$fieldName]['def_value'];
         }
     }
 

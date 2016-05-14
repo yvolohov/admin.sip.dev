@@ -44,7 +44,7 @@ class QuestionForm extends BaseForm
             return array('result' => 'abort');
         }
 
-        $this->fillFromDB($question);
+        $this->fillForm($question);
         $templates = $this->readTemplates($questionModel, $questionId);
         $sentences = $this->readSentences($questionModel, $questionId);
         $this->setParam('templates_list', 'value', $templates);
@@ -54,7 +54,7 @@ class QuestionForm extends BaseForm
 
     public function write($app, $request, $formData)
     {
-        $this->fillFromRequest($formData);
+        $this->fillForm($formData);
         $categoriesModel = new CategoriesModel($app['db']);
         $categoriesListBuilder = new CategoriesListBuilder($categoriesModel);
         $this->setParam('category_id', 'select_list', $categoriesListBuilder->getList());
@@ -91,7 +91,7 @@ class QuestionForm extends BaseForm
 
         foreach ($templates as $template) {
             $templateForm = new TemplateForm();
-            $templateForm->fillFromDB($template);
+            $templateForm->fillForm($template);
             $templateForms[] = $templateForm;
         }
         return $templateForms;
@@ -104,7 +104,7 @@ class QuestionForm extends BaseForm
 
         foreach ($sentences as $sentence) {
             $sentenceForm = new SentenceForm();
-            $sentenceForm->fillFromDB($sentence);
+            $sentenceForm->fillForm($sentence);
             $sentenceForms[] = $sentenceForm;
         }
         return $sentenceForms;
@@ -116,7 +116,7 @@ class QuestionForm extends BaseForm
 
         foreach ($templates as $template) {
             $templateForm = new TemplateForm();
-            $templateForm->fillFromRequest($template);
+            $templateForm->fillForm($template);
             $templatesList[] = $templateForm;
         }
         $this->setParam('templates_list', 'value', $templatesList);
@@ -128,7 +128,7 @@ class QuestionForm extends BaseForm
 
         foreach ($sentences as $sentence) {
             $sentenceForm = new SentenceForm();
-            $sentenceForm->fillFromRequest($sentence);
+            $sentenceForm->fillForm($sentence);
             $sentencesList[] = $sentenceForm;
         }
         $this->setParam('sentences_list', 'value', $sentencesList);
