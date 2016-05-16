@@ -29,4 +29,9 @@ class AuthController
     {
         return 'logout';
     }
+
+    public function checkAuth(Request $request, Application $app)
+    {
+
+    }
 }

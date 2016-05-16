@@ -32,6 +32,9 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => $dbOptions
 ));
 
+/* Session */
+$app->register(new Silex\Provider\SessionServiceProvider());
+
 /* Validation */
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 

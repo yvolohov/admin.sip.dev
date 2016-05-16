@@ -4,85 +4,104 @@ namespace Sip\Controllers\Routes;
 
 function setRoutes($app)
 {
+    $authMethod = 'Sip\Controllers\AuthController::checkAuth';
+
     setAuthRoutes($app);
-    setCategoriesRoutes($app);
-    setCategoryRoutes($app);
-    setQuestionsRoutes($app);
-    setQuestionRoutes($app);
-    setTestRoutes($app);
+    setCategoriesRoutes($app, $authMethod);
+    setCategoryRoutes($app, $authMethod);
+    setQuestionsRoutes($app, $authMethod);
+    setQuestionRoutes($app, $authMethod);
+    setTestRoutes($app, $authMethod);
 }
 
 function setAuthRoutes($app)
 {
-    $route = 'Sip\Controllers\AuthController::login';
-    $app->match('/login/', $route)
+    $method = 'Sip\Controllers\AuthController::login';
+    $app->match('/login/', $method)
         ->method('GET|POST');
 
-    $route = 'Sip\Controllers\AuthController::logout';
-    $app->get('/logout/', $route);
+    $method = 'Sip\Controllers\AuthController::logout';
+    $app->get('/logout/', $method);
 }
 
-function setCategoriesRoutes($app)
+function setCategoriesRoutes($app, $authMethod)
 {
-    $route = 'Sip\Controllers\CategoriesController::showTree';
-    $app->get('/', $route);
-    $app->get('/grammar-rules/show-tree/', $route);
+    $method = 'Sip\Controllers\CategoriesController::showTree';
+    $app->get('/', $method)
+        ->before($authMethod);
+    $app->get('/grammar-rules/show-tree/', $method)
+        ->before($authMethod);
 
-    $route = 'Sip\Controllers\CategoriesController::editTree';
-    $app->get('/categories/edit-tree/', $route);
+    $method = 'Sip\Controllers\CategoriesController::editTree';
+    $app->get('/categories/edit-tree/', $method)
+        ->before($authMethod);
 }
 
-function setCategoryRoutes($app)
+function setCategoryRoutes($app, $authMethod)
 {
-    $route = 'Sip\Controllers\CategoryController::show';
-    $app->get('/grammar-rule/show/{categoryId}/', $route)
-        ->assert('categoryId', '\d+');
-    $app->get('/grammar-rule/show/{categoryId}/{categoryName}/', $route)
+    $method = 'Sip\Controllers\CategoryController::show';
+    $app->get('/grammar-rule/show/{categoryId}/', $method)
         ->assert('categoryId', '\d+')
-        ->assert('categoryName', '(\w|-)+');
+        ->before($authMethod);
+    $app->get('/grammar-rule/show/{categoryId}/{categoryName}/', $method)
+        ->assert('categoryId', '\d+')
+        ->assert('categoryName', '(\w|-)+')
+        ->before($authMethod);
 
-    $route = 'Sip\Controllers\CategoryController::newEdit';
-    $app->match('/category/new/', $route)
-        ->method('GET|POST');
-    $app->match('/category/edit/{categoryId}/', $route)
+    $method = 'Sip\Controllers\CategoryController::newEdit';
+    $app->match('/category/new/', $method)
         ->method('GET|POST')
-        ->assert('categoryId', '\d+');
-}
-
-function setQuestionsRoutes($app)
-{
-    $route = 'Sip\Controllers\QuestionsController::show';
-    $app->get('/questions/show/', $route);
-    $app->get('/questions/show/{pageId}/', $route)
-        ->assert('pageId', '\d+');
-
-    $route = 'Sip\Controllers\QuestionsController::showTree';
-    $app->get('/questions/show-tree/', $route);
-    $app->get('/questions/show-tree/{categoryId}/', $route)
-        ->assert('categoryId', '\d+');
-}
-
-function setQuestionRoutes($app)
-{
-    $route = 'Sip\Controllers\QuestionController::newEdit';
-    $app->match('/question/new/', $route)
-        ->method('GET|POST');
-    $app->match('/question/edit/{questionId}/', $route)
+        ->before($authMethod);
+    $app->match('/category/edit/{categoryId}/', $method)
         ->method('GET|POST')
-        ->assert('questionId', '\d+');
-
-    $route = 'Sip\Controllers\QuestionController::getSentences';
-    $app->post('/question/get-sentences/', $route);
+        ->assert('categoryId', '\d+')
+        ->before($authMethod);
 }
 
-function setTestRoutes($app)
+function setQuestionsRoutes($app, $authMethod)
 {
-    $route = 'Sip\Controllers\TestController::page';
-    $app->get('/test/page/', $route);
+    $method = 'Sip\Controllers\QuestionsController::show';
+    $app->get('/questions/show/', $method)
+        ->before($authMethod);
+    $app->get('/questions/show/{pageId}/', $method)
+        ->assert('pageId', '\d+')
+        ->before($authMethod);
 
-    $route = 'Sip\Controllers\TestController::start';
-    $app->post('/test/start/', $route);
+    $method = 'Sip\Controllers\QuestionsController::showTree';
+    $app->get('/questions/show-tree/', $method)
+        ->before($authMethod);
+    $app->get('/questions/show-tree/{categoryId}/', $method)
+        ->assert('categoryId', '\d+')
+        ->before($authMethod);
+}
 
-    $route = 'Sip\Controllers\TestController::complete';
-    $app->post('/test/complete/', $route);
+function setQuestionRoutes($app, $authMethod)
+{
+    $method = 'Sip\Controllers\QuestionController::newEdit';
+    $app->match('/question/new/', $method)
+        ->method('GET|POST')
+        ->before($authMethod);
+    $app->match('/question/edit/{questionId}/', $method)
+        ->method('GET|POST')
+        ->assert('questionId', '\d+')
+        ->before($authMethod);
+
+    $method = 'Sip\Controllers\QuestionController::getSentences';
+    $app->post('/question/get-sentences/', $method)
+        ->before($authMethod);
+}
+
+function setTestRoutes($app, $authMethod)
+{
+    $method = 'Sip\Controllers\TestController::page';
+    $app->get('/test/page/', $method)
+        ->before($authMethod);
+
+    $method = 'Sip\Controllers\TestController::start';
+    $app->post('/test/start/', $method)
+        ->before($authMethod);
+
+    $method = 'Sip\Controllers\TestController::complete';
+    $app->post('/test/complete/', $method)
+        ->before($authMethod);
 }
