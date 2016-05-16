@@ -38,6 +38,7 @@ class LoginForm extends BaseForm
         $hash = sha1(md5($password) . $email);
 
         if ($hash != $user['password']) {
+            $this->addError('Incorrect email or password');
             return False;
         }
 
