@@ -13,9 +13,10 @@ class AuthController
     {
         $loginForm = new LoginForm();
         $formData = $request->request->get($loginForm->getFormName());
+        $user = $loginForm->validate($app, $formData);
 
-        if (is_array($formData)) {
-            $app['session']->set('user', array());
+        if ($user) {
+            $app['session']->set('user', $user);
             return new RedirectResponse('/');
         }
 

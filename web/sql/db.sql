@@ -1,3 +1,12 @@
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) UNSIGNED AUTO_INCREMENT NOT NULL,
+  `login` varchar(200) NOT NULL,
+  `password` text DEFAULT '' NOT NULL,
+  `role` enum('USER', 'ADMIN'),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`login`)
+) ENGINE = InnoDB;
+
 CREATE TABLE IF NOT EXISTS `categories` (
     `id` int(11) UNSIGNED AUTO_INCREMENT NOT NULL,
     `url_name` varchar(200) NOT NULL,
