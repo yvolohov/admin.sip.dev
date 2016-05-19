@@ -4,14 +4,24 @@ namespace Sip\Models;
 
 class TestModel extends BaseModel
 {
-    public function __construct($db)
+    private $session;
+
+    public function __construct($db, $session)
     {
         parent::__construct($db);
+        $this->session = $session;
     }
 
-    public function startTest($userId, $questionsCount=25, $sentencesCount=2)
+    public function startTest($questionsCount=25, $sentencesCount=2)
     {
+        $userId = $this->getUserId();
         $returnStructure = array();
+
+        if ($userId == Null) {
+            $returnStructure['success'] = False;
+            $returnStructure['error_description'] = 'User Id is not defined';
+            return $returnStructure;
+        }
         $conn = $this->getDB();
         $conn->beginTransaction();
 
@@ -34,9 +44,16 @@ class TestModel extends BaseModel
         return $returnStructure;
     }
 
-    public function completeTest($userId)
+    public function completeTest()
     {
+        $userId = $this->getUserId();
         $returnStructure = array();
+
+        if ($userId == Null) {
+            $returnStructure['success'] = False;
+            $returnStructure['error_description'] = 'User Id is not defined';
+            return $returnStructure;
+        }
         $conn = $this->getDB();
         $conn->beginTransaction();
 
@@ -52,6 +69,17 @@ class TestModel extends BaseModel
         }
 
         return $returnStructure;
+    }
+
+    private function getUserId()
+    {
+        $user = $this->session->get('user');
+
+        if (!is_array($user)) {
+            return Null;
+        }
+
+        return (isset($user['id'])) ? $user['id'] : Null;
     }
 
     private function uncheckTestRecords($userId)

@@ -18,9 +18,8 @@ class TestController
 
     public function start(Request $request, Application $app)
     {
-        $model = new TestModel($app['db']);
+        $model = new TestModel($app['db'], $app['session']);
         $returnStructure = $model->startTest(
-            1,
             $app['config']['test_questions_count'],
             $app['config']['test_sentences_count']
         );
@@ -30,8 +29,8 @@ class TestController
 
     public function complete(Request $request, Application $app)
     {
-        $model = new TestModel($app['db']);
-        $returnStructure = $model->completeTest(1);
+        $model = new TestModel($app['db'], $app['session']);
+        $returnStructure = $model->completeTest();
 
         return new JsonResponse($returnStructure);
     }
