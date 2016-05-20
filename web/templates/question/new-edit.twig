@@ -54,7 +54,7 @@
             <div class="cell">
                 <div class="input-control input-text full-size">
                     <label>{{ form.getParam('foreign_sentence', 'label') }}:</label>
-                    <input type="text" name="question[foreign_sentence]"
+                    <input id="foreign_sentence" type="text" name="question[foreign_sentence]"
                            value="{{ form.getParam('foreign_sentence', 'value') }}"/>
                 </div>
             </div>
@@ -64,7 +64,7 @@
             <div class="cell">
                 <div class="input-control input-text full-size">
                     <label>{{ form.getParam('native_sentence', 'label') }}:</label>
-                    <input type="text" name="question[native_sentence]"
+                    <input id="native_sentence" type="text" name="question[native_sentence]"
                            value="{{ form.getParam('native_sentence', 'value') }}"/>
                 </div>
             </div>
