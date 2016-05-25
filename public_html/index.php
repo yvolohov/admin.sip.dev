@@ -6,10 +6,10 @@ $app['debug'] = True;
 
 $dbOptions = array(
     'driver' => 'pdo_mysql',
-    'host' => 'localhost',
-    'dbname' => 'sip_dev',
-    'user' => 'root',
-    'password' => '3091006634',
+    'host' => '127.0.0.1',
+    'dbname' => '',
+    'user' => '',
+    'password' => '',
     'charset' => 'utf8'
 );
 
