@@ -2,4 +2,4 @@
 vendor/
 logs/
 composer.phar
-settings.php
+public_html/settings.php

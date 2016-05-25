@@ -2,10 +2,10 @@
   "name": "admin.sip",
   "autoload": {
     "psr-4": {
-      "Sip\\": "web/"
+      "Sip\\": "public_html/"
     },
     "files": [
-      "web/Controllers/Routes/routes.php"
+      "public_html/Controllers/Routes/routes.php"
     ]
   },
   "require": {
