@@ -96,6 +96,12 @@
                     <div class="row">
                         <div class="cell">
                             <button id="button_submit" type="submit" class="button rounded primary">Save</button>
+
+                            {% set id = form.getParam('id', 'value') %}
+                            {% set url_name = form.getParam('url_name', 'value') %}
+                            {% if id and url_name %}
+                            <a href="/grammar-rule/show/{{ id }}/{{ url_name }}/" target="_blank" class="button rounded">Preview</a>
+                            {% endif %}
                         </div>
                     </div>
 
