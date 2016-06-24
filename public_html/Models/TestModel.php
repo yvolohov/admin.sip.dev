@@ -71,6 +71,48 @@ class TestModel extends BaseModel
         return $returnStructure;
     }
 
+    public function startTestByCategory($categoryId)
+    {
+        $userId = $this->getUserId();
+        $returnStructure = array();
+
+        if ($userId == Null) {
+            $returnStructure['success'] = False;
+            $returnStructure['error_description'] = 'User Id is not defined';
+            return $returnStructure;
+        }
+        $conn = $this->getDB();
+        $conn->beginTransaction();
+
+        try {
+            $conn->commit();
+            $returnStructure['success'] = True;
+            $returnStructure['data'] = array();
+        }
+        catch (\Exception $e) {
+            $conn->rollback();
+            $returnStructure['success'] = False;
+            $returnStructure['error_description'] = $e->getMessage();
+        }
+
+        /*
+        $questions = $this->getDB()->fetchAll(
+            'SELECT question_id, sentences_cnt FROM questions que
+            WHERE category_id = :category_id',
+            array(
+                'category_id' => $categoryId
+            )
+        );
+        */
+
+        return $returnStructure;
+    }
+
+    public function completeTestByCategory($categoryId)
+    {
+        return array('category_id' => $categoryId);
+    }
+
     private function getUserId()
     {
         $user = $this->session->get('user');

@@ -145,7 +145,7 @@ $(document).ready(function()
 
             $.ajax(
                 {
-                    type: "POST",
+                    type: "GET",
                     url: "/test/start/",
                     data: {},
                     success: function(data)
@@ -163,7 +163,7 @@ $(document).ready(function()
 
             $.ajax(
                 {
-                    type: "POST",
+                    type: "GET",
                     url: "/test/complete/",
                     data: {},
                     success: function(data) {},

@@ -98,10 +98,16 @@ function setTestRoutes($app, $authMethod)
         ->before($authMethod);
 
     $method = 'Sip\Controllers\TestController::start';
-    $app->post('/test/start/', $method)
+    $app->get('/test/start/', $method)
+        ->before($authMethod);
+    $app->get('/test/start/{categoryId}/', $method)
+        ->assert('categoryId', '\d+')
         ->before($authMethod);
 
     $method = 'Sip\Controllers\TestController::complete';
-    $app->post('/test/complete/', $method)
+    $app->get('/test/complete/', $method)
+        ->before($authMethod);
+    $app->get('/test/complete/{categoryId}/', $method)
+        ->assert('categoryId', '\d+')
         ->before($authMethod);
 }

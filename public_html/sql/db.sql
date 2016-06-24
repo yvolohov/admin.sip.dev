@@ -67,3 +67,10 @@ CREATE TABLE IF NOT EXISTS `tests` (
     `last_passage` datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
     PRIMARY KEY (`user_id`, `question_id`)
 ) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `cat_tests` (
+    `user_id` int(11) UNSIGNED NOT NULL,
+    `category_id` int(11) UNSIGNED NOT NULL,
+    `passages_cnt` int(11) UNSIGNED DEFAULT '0' NOT NULL,
+    PRIMARY KEY (`user_id`, `category_id`)
+) ENGINE = InnoDB;
