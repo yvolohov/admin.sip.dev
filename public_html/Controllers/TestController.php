@@ -27,7 +27,10 @@ class TestController
             );
         }
         else {
-            $returnStructure = $model->startTestByCategory($categoryId);
+            $returnStructure = $model->startTestByCategory(
+                $categoryId,
+                $app['config']['test_sentences_count']
+            );
         }
 
         return new JsonResponse($returnStructure);

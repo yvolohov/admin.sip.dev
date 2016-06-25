@@ -12,6 +12,7 @@ class TestModel extends BaseModel
         $this->session = $session;
     }
 
+    /* standard test */
     public function startTest($questionsCount=25, $sentencesCount=2)
     {
         $userId = $this->getUserId();
@@ -71,7 +72,8 @@ class TestModel extends BaseModel
         return $returnStructure;
     }
 
-    public function startTestByCategory($categoryId)
+    /* test by category */
+    public function startTestByCategory($categoryId, $sentencesCount=2)
     {
         $userId = $this->getUserId();
         $returnStructure = array();
@@ -85,25 +87,17 @@ class TestModel extends BaseModel
         $conn->beginTransaction();
 
         try {
+            $questions =& $this->getQuestionsByCategory($categoryId, $sentencesCount);
+            $sentences = $this->getSentences($questions);
             $conn->commit();
             $returnStructure['success'] = True;
-            $returnStructure['data'] = array();
+            $returnStructure['data'] = $sentences;
         }
         catch (\Exception $e) {
             $conn->rollback();
             $returnStructure['success'] = False;
             $returnStructure['error_description'] = $e->getMessage();
         }
-
-        /*
-        $questions = $this->getDB()->fetchAll(
-            'SELECT question_id, sentences_cnt FROM questions que
-            WHERE category_id = :category_id',
-            array(
-                'category_id' => $categoryId
-            )
-        );
-        */
 
         return $returnStructure;
     }
@@ -113,6 +107,7 @@ class TestModel extends BaseModel
         return array('category_id' => $categoryId);
     }
 
+    /* standard test */
     private function getUserId()
     {
         $user = $this->session->get('user');
@@ -180,6 +175,13 @@ class TestModel extends BaseModel
         $stm->bindValue('questions_count', $questionsCount, \PDO::PARAM_INT);
         $stm->execute();
         $questions = $stm->fetchAll();
+        $this->selectSentences($questions, $sentencesCount);
+
+        return $questions;
+    }
+
+    private function selectSentences(&$questions, $sentencesCount)
+    {
         $questionsCount = count($questions);
 
         for ($queIdx = 0; $queIdx < $questionsCount; $queIdx++) {
@@ -193,11 +195,9 @@ class TestModel extends BaseModel
                 $questions[$queIdx]['selected_sentences'][] = $pool[$poolIdx];
                 array_splice($pool, $poolIdx, 1);
             }
-            
+
             sort($questions[$queIdx]['selected_sentences']);
         }
-
-        return $questions;
     }
 
     private function checkTestRecords($userId, &$questions)
@@ -224,6 +224,10 @@ class TestModel extends BaseModel
 
     private function getSentences(&$questions)
     {
+        if (count($questions) == 0) {
+            return array();
+        }
+
         $needUnion = False;
         $subQuery = '';
         $subSubQuery =
@@ -258,5 +262,20 @@ class TestModel extends BaseModel
                 'user_id' => $userId
             )
         );
+    }
+
+    /* test by category */
+    private function &getQuestionsByCategory($categoryId, $sentencesCount)
+    {
+        $questions = $this->getDB()->fetchAll(
+            'SELECT id question_id, sentences_cnt FROM questions que
+            WHERE category_id = :category_id',
+            array(
+                'category_id' => $categoryId
+            )
+        );
+        $this->selectSentences($questions, $sentencesCount);
+
+        return $questions;
     }
 }
