@@ -5,111 +5,117 @@
 {% endblock %}
 
 {% block content %}
-<div class="grid">
+    <div class="grid">
 
-    <div class="row" >
-        <div class="cell">
-            <a href="/categories/edit-tree/" class="button small-button rounded">To tree</a>
+        <div class="row">
+            <div class="cell">
+                <a href="/categories/edit-tree/" class="button small-button rounded">To tree</a>
 
-            {% set id = form.getParam('id', 'value') %}
-            {% set url_name = form.getParam('url_name', 'value') %}
-            {% if id and url_name %}
-                <a href="/grammar-rule/show/{{ id }}/{{ url_name }}/" target="_blank" class="button small-button rounded">Preview</a>
-            {% endif %}
+                {% set id = form.getParam('id', 'value') %}
+                {% set url_name = form.getParam('url_name', 'value') %}
+                {% if id and url_name %}
+                    <a href="/grammar-rule/show/{{ id }}/{{ url_name }}/" target="_blank"
+                       class="button small-button rounded">Preview</a>
+                {% endif %}
+            </div>
         </div>
-    </div>
 
-    <div class="row" >
-        <div class="cell">
-            <form name="category" method="POST" action=".">
+        <div class="row">
+            <div class="cell">
+                <form name="category" method="POST" action=".">
 
-                <div class="grid">
+                    <div class="grid">
 
-                    {% set errors = form.getErrors() %}
-                    {% if errors|length > 0 %}
-                    <div class="row">
-                        <div class="cell">
-                            {% for error in errors %}
-                            <span class="badge">{{ error }}</span><br/>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% endif %}
-
-                    <input type="hidden" name="category[id]" value="{{ form.getParam('id', 'value') }}"/>
-
-                    <div class="row">
-                        <div class="cell">
-                            <div class="input-control input-text full-size">
-                                <label>{{ form.getParam('url_name', 'label') }}:</label>
-                                <input type="text" name="category[url_name]" value="{{ form.getParam('url_name', 'value') }}"/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="cell">
-                            <div class="input-control input-text full-size">
-                                <label>{{ form.getParam('foreign_name', 'label') }}:</label>
-                                <input type="text" name="category[foreign_name]" value="{{ form.getParam('foreign_name', 'value') }}"/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="cell">
-                            <div class="input-control input-text full-size">
-                                <label>{{ form.getParam('native_name', 'label') }}:</label>
-                                <input type="text" name="category[native_name]" value="{{ form.getParam('native_name', 'value') }}"/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="cell">
-                            <div class="input-control input-text">
-                                <label>{{ form.getParam('sort_field', 'label') }}:</label>
-                                <input type="text" name="category[sort_field]" value="{{ form.getParam('sort_field', 'value') }}"/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="cell">
-                            <div class="input-control input-text textarea full-size">
-                                <label>{{ form.getParam('description', 'label') }}:</label>
-                                <textarea name="category[description]">{{ form.getParam('description', 'value') }}</textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="cell">
-                            <div class="input-control select">
-                                <label>{{ form.getParam('parent_id', 'label') }}:</label>
-                                <select name="category[parent_id]">
-
-                                    {% set skey = form.getParam('parent_id', 'value') %}
-                                    {% for key, value in form.getParam('parent_id', 'select_list') %}
-                                    <option value="{{ key }}" {{ (key == skey) ? 'selected' : '' }}>{{ value }}</option>
+                        {% set errors = form.getErrors() %}
+                        {% if errors|length > 0 %}
+                            <div class="row">
+                                <div class="cell">
+                                    {% for error in errors %}
+                                        <span class="badge">{{ error }}</span><br/>
                                     {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
 
-                                </select>
+                        <input type="hidden" name="category[id]" value="{{ form.getParam('id', 'value') }}"/>
+
+                        <div class="row">
+                            <div class="cell">
+                                <div class="input-control input-text full-size">
+                                    <label>{{ form.getParam('url_name', 'label') }}:</label>
+                                    <input type="text" name="category[url_name]"
+                                           value="{{ form.getParam('url_name', 'value') }}"/>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="cell">
-                            <button id="button_submit" type="submit" class="button rounded primary">Save</button>
+                        <div class="row">
+                            <div class="cell">
+                                <div class="input-control input-text full-size">
+                                    <label>{{ form.getParam('foreign_name', 'label') }}:</label>
+                                    <input type="text" name="category[foreign_name]"
+                                           value="{{ form.getParam('foreign_name', 'value') }}"/>
+                                </div>
+                            </div>
                         </div>
+
+                        <div class="row">
+                            <div class="cell">
+                                <div class="input-control input-text full-size">
+                                    <label>{{ form.getParam('native_name', 'label') }}:</label>
+                                    <input type="text" name="category[native_name]"
+                                           value="{{ form.getParam('native_name', 'value') }}"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="cell">
+                                <div class="input-control input-text">
+                                    <label>{{ form.getParam('sort_field', 'label') }}:</label>
+                                    <input type="text" name="category[sort_field]"
+                                           value="{{ form.getParam('sort_field', 'value') }}"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="cell">
+                                <div class="input-control input-text textarea full-size">
+                                    <label>{{ form.getParam('description', 'label') }}:</label>
+                                    <textarea
+                                            name="category[description]">{{ form.getParam('description', 'value') }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="cell">
+                                <div class="input-control select">
+                                    <label>{{ form.getParam('parent_id', 'label') }}:</label>
+                                    <select name="category[parent_id]">
+
+                                        {% set skey = form.getParam('parent_id', 'value') %}
+                                        {% for key, value in form.getParam('parent_id', 'select_list') %}
+                                            <option value="{{ key }}" {{ (key == skey) ? 'selected' : '' }}>{{ value }}</option>
+                                        {% endfor %}
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="cell">
+                                <button id="button_submit" type="submit" class="button rounded primary">Save</button>
+                            </div>
+                        </div>
+
                     </div>
 
-                </div>
-
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
 
-</div>
+    </div>
 {% endblock %}

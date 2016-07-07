@@ -1,13 +1,13 @@
 {% if categories[key] is defined %}
-<ul class="unstyled-list">
-    {% for category in categories[key] %}
-        <li>
-            <a class="category_name" href="/grammar-rule/show/{{ category.id }}/{{ category.url_name }}/">
-                {{ category.native_name }}
-            </a>
+    <ul class="unstyled-list">
+        {% for category in categories[key] %}
+            <li>
+                <a class="category_name" href="/grammar-rule/show/{{ category.id }}/{{ category.url_name }}/">
+                    {{ category.native_name }}
+                </a>
 
-            {% include "categories/show-tree-level.twig" with {'key': category.id} %}
-        </li>
-    {% endfor %}
-</ul>
+                {% include "categories/show-tree-level.twig" with {'key': category.id} %}
+            </li>
+        {% endfor %}
+    </ul>
 {% endif %}

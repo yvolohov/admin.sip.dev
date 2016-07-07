@@ -1,7 +1,7 @@
 {% extends "base.twig" %}
 
 {% block header %}
-<script type="text/javascript" src="/assets/js/question-form.js"></script>
+    <script type="text/javascript" src="/assets/js/question-form.js"></script>
 {% endblock %}
 
 {% block headMenu %}
@@ -9,163 +9,163 @@
 {% endblock %}
 
 {% block content %}
-<div class="grid">
-
-    <div class="row">
-        <div class="cell">
-            <a href="/questions/show/" class="button small-button rounded">To list</a>
-            <a href="/questions/show-tree/" class="button small-button rounded">To tree</a>
-        </div>
-    </div>
-
-    {% set errors = form.getErrors() %}
-    <div class="row">
-        <div class="cell">
-
-            {% for error in errors %}
-            <span class="badge">{{ error }}</span><br/>
-            {% endfor %}
-
-            <span id="err-messages"></span>
-        </div>
-    </div>
-
-    <form name="question" method="POST" action=".">
-
-        <input type="hidden" name="question[id]" value="{{ form.getParam('id', 'value') }}"/>
+    <div class="grid">
 
         <div class="row">
             <div class="cell">
-                <div class="input-control select">
-                    <label>{{ form.getParam('category_id', 'label') }}:</label>
-                    <select name="question[category_id]">
+                <a href="/questions/show/" class="button small-button rounded">To list</a>
+                <a href="/questions/show-tree/" class="button small-button rounded">To tree</a>
+            </div>
+        </div>
 
-                        {% set skey = form.getParam('category_id', 'value') %}
-                        {% for key, value in form.getParam('category_id', 'select_list') %}
-                        <option value="{{ key }}" {{ (key == skey) ? 'selected' : '' }}>{{ value }}</option>
-                        {% endfor %}
+        {% set errors = form.getErrors() %}
+        <div class="row">
+            <div class="cell">
 
-                    </select>
+                {% for error in errors %}
+                    <span class="badge">{{ error }}</span><br/>
+                {% endfor %}
+
+                <span id="err-messages"></span>
+            </div>
+        </div>
+
+        <form name="question" method="POST" action=".">
+
+            <input type="hidden" name="question[id]" value="{{ form.getParam('id', 'value') }}"/>
+
+            <div class="row">
+                <div class="cell">
+                    <div class="input-control select">
+                        <label>{{ form.getParam('category_id', 'label') }}:</label>
+                        <select name="question[category_id]">
+
+                            {% set skey = form.getParam('category_id', 'value') %}
+                            {% for key, value in form.getParam('category_id', 'select_list') %}
+                                <option value="{{ key }}" {{ (key == skey) ? 'selected' : '' }}>{{ value }}</option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="cell">
-                <div class="input-control input-text full-size">
-                    <label>{{ form.getParam('foreign_sentence', 'label') }}:</label>
-                    <input id="foreign_sentence" type="text" name="question[foreign_sentence]"
-                           value="{{ form.getParam('foreign_sentence', 'value') }}"/>
+            <div class="row">
+                <div class="cell">
+                    <div class="input-control input-text full-size">
+                        <label>{{ form.getParam('foreign_sentence', 'label') }}:</label>
+                        <input id="foreign_sentence" type="text" name="question[foreign_sentence]"
+                               value="{{ form.getParam('foreign_sentence', 'value') }}"/>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="cell">
-                <div class="input-control input-text full-size">
-                    <label>{{ form.getParam('native_sentence', 'label') }}:</label>
-                    <input id="native_sentence" type="text" name="question[native_sentence]"
-                           value="{{ form.getParam('native_sentence', 'value') }}"/>
+            <div class="row">
+                <div class="cell">
+                    <div class="input-control input-text full-size">
+                        <label>{{ form.getParam('native_sentence', 'label') }}:</label>
+                        <input id="native_sentence" type="text" name="question[native_sentence]"
+                               value="{{ form.getParam('native_sentence', 'value') }}"/>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="cell">
-                <button class="button rounded" id="button-add-template" type="button">Add template</button>
-                <button class="button rounded" id="button-remove-templates" type="button">Remove templates</button>
-                <button class="button rounded" id="button-fill-sentences" type="button">Fill sentences</button>
-                <button class="button rounded" id="button-clear-sentences" type="button">Clear sentences</button>
-                <button class="button rounded primary" id="button_submit" type="submit">Save form</button>
+            <div class="row">
+                <div class="cell">
+                    <button class="button rounded" id="button-add-template" type="button">Add template</button>
+                    <button class="button rounded" id="button-remove-templates" type="button">Remove templates</button>
+                    <button class="button rounded" id="button-fill-sentences" type="button">Fill sentences</button>
+                    <button class="button rounded" id="button-clear-sentences" type="button">Clear sentences</button>
+                    <button class="button rounded primary" id="button_submit" type="submit">Save form</button>
+                </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="cell">
-                <table class="table hovered striped" id="templates_table">
-                    <thead>
+            <div class="row">
+                <div class="cell">
+                    <table class="table hovered striped" id="templates_table">
+                        <thead>
                         <tr>
                             <th>#</th>
                             <th>Foreign template</th>
                             <th>Native template</th>
                         </tr>
-                    </thead>
+                        </thead>
 
-                    <tbody>
+                        <tbody>
 
                         {% for key, templateForm in form.getParam('templates_list', 'value') %}
-                        <tr id="templates_row_{{ loop.index0 }}">
-                            <td>
-                                <label class="input-control input-checkbox small-check">
-                                    <input class="templates_checkbox" type="checkbox"
-                                           value="#templates_row_{{ loop.index0 }}"/>
-                                    <span class="check"></span>
-                                </label>
-                            </td>
-                            <td>
-                                <div class="input-control input-text full-size">
-                                    <input type="text" name="templates[{{ key }}][foreign_template]"
-                                           value="{{ templateForm.getParam('foreign_template', 'value') }}"/>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-control input-text full-size">
-                                    <input type="text" name="templates[{{ key }}][native_template]"
-                                           value="{{ templateForm.getParam('native_template', 'value') }}"/>
-                                </div>
-                            </td>
-                        </tr>
+                            <tr id="templates_row_{{ loop.index0 }}">
+                                <td>
+                                    <label class="input-control input-checkbox small-check">
+                                        <input class="templates_checkbox" type="checkbox"
+                                               value="#templates_row_{{ loop.index0 }}"/>
+                                        <span class="check"></span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <div class="input-control input-text full-size">
+                                        <input type="text" name="templates[{{ key }}][foreign_template]"
+                                               value="{{ templateForm.getParam('foreign_template', 'value') }}"/>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-control input-text full-size">
+                                        <input type="text" name="templates[{{ key }}][native_template]"
+                                               value="{{ templateForm.getParam('native_template', 'value') }}"/>
+                                    </div>
+                                </td>
+                            </tr>
                         {% endfor %}
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="cell">
-                <table class="table hovered striped" id="sentences_table">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Foreign sentence</th>
-                        <th>Native sentence</th>
-                        <th>Parts</th>
-                    </tr>
-                    </thead>
+            <div class="row">
+                <div class="cell">
+                    <table class="table hovered striped" id="sentences_table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Foreign sentence</th>
+                            <th>Native sentence</th>
+                            <th>Parts</th>
+                        </tr>
+                        </thead>
 
-                    <tbody>
+                        <tbody>
 
                         {% for key, sentenceForm in form.getParam('sentences_list', 'value') %}
-                        <tr id="sentences_row_{{ loop.index0 }}">
-                            <td>{{ loop.index }}</td>
-                            <td>
-                                <div class="input-control input-text full-size">
-                                    <input type="text" name="sentences[{{ key }}][foreign_sentence]"
-                                            value="{{ sentenceForm.getParam('foreign_sentence', 'value') }}"/>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-control input-text full-size">
-                                    <input type="text" name="sentences[{{ key }}][native_sentence]"
-                                            value="{{ sentenceForm.getParam('native_sentence', 'value') }}"/>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-control input-text full-size">
-                                    <input type="text" name="sentences[{{ key }}][parts]"
-                                           value="{{ sentenceForm.getParam('parts', 'value') }}"/>
-                                </div>
-                            </td>
-                        </tr>
+                            <tr id="sentences_row_{{ loop.index0 }}">
+                                <td>{{ loop.index }}</td>
+                                <td>
+                                    <div class="input-control input-text full-size">
+                                        <input type="text" name="sentences[{{ key }}][foreign_sentence]"
+                                               value="{{ sentenceForm.getParam('foreign_sentence', 'value') }}"/>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-control input-text full-size">
+                                        <input type="text" name="sentences[{{ key }}][native_sentence]"
+                                               value="{{ sentenceForm.getParam('native_sentence', 'value') }}"/>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-control input-text full-size">
+                                        <input type="text" name="sentences[{{ key }}][parts]"
+                                               value="{{ sentenceForm.getParam('parts', 'value') }}"/>
+                                    </div>
+                                </td>
+                            </tr>
                         {% endfor %}
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
 
-    </form>
+        </form>
 
-</div>
+    </div>
 {% endblock %}

@@ -1,10 +1,10 @@
 {% extends "base.twig" %}
 
 {% block header %}
-{% if userIsLogged %}
-    <link rel="stylesheet" href="/assets/css/test-form.css" />
-    <script type="text/javascript" src="/assets/js/test-form.js"></script>
-{% endif %}
+    {% if userIsLogged %}
+        <link rel="stylesheet" href="/assets/css/test-form.css"/>
+        <script type="text/javascript" src="/assets/js/test-form.js"></script>
+    {% endif %}
 {% endblock %}
 
 {% block headMenu %}
@@ -12,28 +12,29 @@
 {% endblock %}
 
 {% block content %}
-<div class="grid">
+    <div class="grid">
 
-    {% for category in categories %}
-    <div class="row">
-        <div class="cell">
+        {% for category in categories %}
+            <div class="row">
+                <div class="cell">
 
-            {% if loop.last %}
-            <h3>{{ category.native_name }}</h3>
-            {% else %}
-            <a href="/grammar-rule/show/{{ category.id }}/{{ category.url_name }}/"><h3>{{ category.native_name }}</h3></a>
-            {% endif %}
-            <div>{{ category.description|raw }}</div>
+                    {% if loop.last %}
+                        <h3>{{ category.native_name }}</h3>
+                    {% else %}
+                        <a href="/grammar-rule/show/{{ category.id }}/{{ category.url_name }}/">
+                            <h3>{{ category.native_name }}</h3></a>
+                    {% endif %}
+                    <div>{{ category.description|raw }}</div>
 
-        </div>
+                </div>
+            </div>
+        {% endfor %}
+
     </div>
-    {% endfor %}
 
-</div>
-
-{% if userIsLogged %}
-    <hr/>
-    {% include "test/screen.twig" with {'startUrl': startUrl, 'completeUrl': completeUrl} only %}
-{% endif %}
+    {% if userIsLogged %}
+        <hr/>
+        {% include "test/screen.twig" with {'startUrl': startUrl, 'completeUrl': completeUrl} only %}
+    {% endif %}
 
 {% endblock %}

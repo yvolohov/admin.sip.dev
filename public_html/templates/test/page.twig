@@ -1,14 +1,14 @@
 {% extends "base.twig" %}
 
 {% block header %}
-<link rel="stylesheet" href="/assets/css/test-form.css" />
-<script type="text/javascript" src="/assets/js/test-form.js"></script>
+    <link rel="stylesheet" href="/assets/css/test-form.css"/>
+    <script type="text/javascript" src="/assets/js/test-form.js"></script>
 {% endblock %}
 
 {% block headMenu %}
-{% include "head-menu.twig" with {'activePage': '/test/page/'} only %}
+    {% include "head-menu.twig" with {'activePage': '/test/page/'} only %}
 {% endblock %}
 
 {% block content %}
-{% include "test/screen.twig" with {'startUrl': startUrl, 'completeUrl': completeUrl} only %}
+    {% include "test/screen.twig" with {'startUrl': startUrl, 'completeUrl': completeUrl} only %}
 {% endblock %}
