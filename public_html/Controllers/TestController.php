@@ -12,7 +12,11 @@ class TestController
     public function page(Request $request, Application $app)
     {
         return $app['twig']->render(
-            'test/page.twig'
+            'test/page.twig',
+            array(
+                'startUrl' => "/test/start/",
+                'completeUrl' => "/test/complete/"
+            )
         );
     }
 

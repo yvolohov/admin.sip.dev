@@ -1,0 +1,34 @@
+<div id="start-url" style="display: none;">{{ startUrl }}</div>
+<div id="complete-url" style="display: none;">{{ completeUrl }}</div>
+<div class="grid condensed">
+    <div class="row start-screen">
+        <div class="cell">
+            <button class="button rounded primary" id="button-start">Start new test</button>
+        </div>
+    </div>
+    <div class="row main-screen" style="display: none;">
+        <div class="cell">
+            <h5 id="text-progress">Loading ...</h5>
+        </div>
+    </div>
+    <div class="row main-screen" style="display: none;">
+        <div class="cell">
+            <h3 id="text-question">Loading ...</h3>
+        </div>
+    </div>
+    <div class="row main-screen" style="display: none;">
+        <div class="cell">
+            <div class="input-control input-text full-size">
+                <input id="input-answer" type="text" disabled="disabled">
+            </div>
+        </div>
+    </div>
+    <div class="row main-screen" style="display: none;">
+        <div class="cell">
+            <div id="button-container">
+                <button class="button rounded primary" id="button-answer" type="button" disabled="disabled">Answer</button>
+                <button class="button rounded" id="button-help" type="button" disabled="disabled">Help</button>
+            </div>
+        </div>
+    </div>
+</div>

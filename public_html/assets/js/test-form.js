@@ -58,9 +58,14 @@ $(document).ready(function()
         this.tokenizer = tokenizer;
         this.questions = [];
         this.questionIndex = -1;
+        this.startUrl = $("#start-url").text();
+        this.completeUrl = $("#complete-url").text();
 
         this.start = function(data)
         {
+            $(".start-screen").hide();
+            $(".main-screen").show();
+
             if (data.length > 0)
             {
                 this.answerField.removeAttr("disabled").focus();
@@ -146,7 +151,7 @@ $(document).ready(function()
             $.ajax(
                 {
                     type: "GET",
-                    url: "/test/start/",
+                    url: self.startUrl,
                     data: {},
                     success: function(data)
                     {
@@ -164,7 +169,7 @@ $(document).ready(function()
             $.ajax(
                 {
                     type: "GET",
-                    url: "/test/complete/",
+                    url: self.completeUrl,
                     data: {},
                     success: function(data) {},
                     error: function(data) {}
@@ -176,7 +181,12 @@ $(document).ready(function()
 
     var tokenizer = new Tokenizer();
     var testManager = new TestManager(tokenizer);
-    testManager.startTest();
+
+    /* Кнопка старта */
+    $("#button-start").click(function()
+    {
+        testManager.startTest();
+    });
 
     /* Кнопка ответа */
     $("#button-answer").click(function()

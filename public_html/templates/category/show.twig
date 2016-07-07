@@ -1,5 +1,12 @@
 {% extends "base.twig" %}
 
+{% block header %}
+{% if userIsLogged %}
+    <link rel="stylesheet" href="/assets/css/test-form.css" />
+    <script type="text/javascript" src="/assets/js/test-form.js"></script>
+{% endif %}
+{% endblock %}
+
 {% block headMenu %}
     {% include "head-menu.twig" with {'activePage': ''} only %}
 {% endblock %}
@@ -23,4 +30,10 @@
     {% endfor %}
 
 </div>
+
+{% if userIsLogged %}
+    <hr/>
+    {% include "test/screen.twig" with {'startUrl': startUrl, 'completeUrl': completeUrl} only %}
+{% endif %}
+
 {% endblock %}

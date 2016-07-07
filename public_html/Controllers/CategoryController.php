@@ -25,11 +25,15 @@ class CategoryController
         }
 
         $categoryWithAncestors = $model->getCategoryAncestors($categoryId);
+        $user = $app['session']->get('user');
 
         return $app['twig']->render(
             'category/show.twig',
             array(
-                'categories' => $categoryWithAncestors
+                'categories' => $categoryWithAncestors,
+                'startUrl' => "/test/start/{$categoryId}/",
+                'completeUrl' => "/test/complete/{$categoryId}/",
+                'userIsLogged' => ($user != Null)
             )
         );
     }

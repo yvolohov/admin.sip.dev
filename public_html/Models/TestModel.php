@@ -104,7 +104,10 @@ class TestModel extends BaseModel
 
     public function completeTestByCategory($categoryId)
     {
-        return array('category_id' => $categoryId);
+        $returnStructure = array();
+        $returnStructure['success'] = True;
+
+        return $returnStructure;
     }
 
     /* standard test */
