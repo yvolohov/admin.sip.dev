@@ -4,18 +4,18 @@ namespace Sip\Models;
 
 class TestModel extends BaseModel
 {
-    private $session;
+    private $userId;
 
-    public function __construct($db, $session)
+    public function __construct($db, $userId)
     {
         parent::__construct($db);
-        $this->session = $session;
+        $this->userId = $userId;
     }
 
     /* standard test */
     public function startTest($questionsCount=25, $sentencesCount=2)
     {
-        $userId = $this->getUserId();
+        $userId = $this->userId;
         $returnStructure = array();
 
         if ($userId == Null) {
@@ -47,7 +47,7 @@ class TestModel extends BaseModel
 
     public function completeTest()
     {
-        $userId = $this->getUserId();
+        $userId = $this->userId;
         $returnStructure = array();
 
         if ($userId == Null) {
@@ -75,7 +75,7 @@ class TestModel extends BaseModel
     /* test by category */
     public function startTestByCategory($categoryId, $sentencesCount=2)
     {
-        $userId = $this->getUserId();
+        $userId = $this->userId;
         $returnStructure = array();
 
         if ($userId == Null) {
@@ -111,17 +111,6 @@ class TestModel extends BaseModel
     }
 
     /* standard test */
-    private function getUserId()
-    {
-        $user = $this->session->get('user');
-
-        if (!is_array($user)) {
-            return Null;
-        }
-
-        return (isset($user['id'])) ? $user['id'] : Null;
-    }
-
     private function uncheckTestRecords($userId)
     {
         $this->getDB()->executeUpdate(

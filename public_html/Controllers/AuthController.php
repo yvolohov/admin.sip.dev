@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Application;
 use Sip\Forms\LoginForm;
+use Sip\Models\SessionModel;
 
 class AuthController
 {
@@ -14,9 +15,10 @@ class AuthController
         $loginForm = new LoginForm();
         $formData = $request->request->get($loginForm->getFormName());
         $user = $loginForm->validate($app, $formData);
+        $sessionModel = new SessionModel($app['session']);
 
         if ($user) {
-            $app['session']->set('user', $user);
+            $sessionModel->setUser($user);
             return new RedirectResponse('/');
         }
 
@@ -30,13 +32,16 @@ class AuthController
 
     public function logout(Request $request, Application $app)
     {
-        $app['session']->remove('user');
+        $sessionModel = new SessionModel($app['session']);
+        $sessionModel->removeUser();
         return new RedirectResponse('/login');
     }
 
     public function checkAuth(Request $request, Application $app)
     {
-        if (!$app['session']->has('user')) {
+        $sessionModel = new SessionModel($app['session']);
+
+        if (!$sessionModel->hasUser()) {
             return new RedirectResponse('/login');
         }
     }

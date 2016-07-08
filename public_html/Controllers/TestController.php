@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Silex\Application;
 use Sip\Models\TestModel;
+use Sip\Models\SessionModel;
 
 class TestController
 {
@@ -22,7 +23,8 @@ class TestController
 
     public function start(Request $request, Application $app, $categoryId=Null)
     {
-        $model = new TestModel($app['db'], $app['session']);
+        $userId = $this->getUserId($app['session']);
+        $model = new TestModel($app['db'], $userId);
 
         if ($categoryId == Null) {
             $returnStructure = $model->startTest(
@@ -42,11 +44,24 @@ class TestController
 
     public function complete(Request $request, Application $app, $categoryId=Null)
     {
-        $model = new TestModel($app['db'], $app['session']);
+        $userId = $this->getUserId($app['session']);
+        $model = new TestModel($app['db'], $userId);
         $returnStructure = ($categoryId == Null)
             ? $model->completeTest()
             : $model->completeTestByCategory($categoryId);
 
         return new JsonResponse($returnStructure);
+    }
+
+    private function getUserId($session)
+    {
+        $sessionModel = new SessionModel($session);
+        $user = $sessionModel->getUser();
+
+        if (!is_array($user)) {
+            return Null;
+        }
+
+        return (isset($user['id'])) ? $user['id'] : Null;
     }
 }
