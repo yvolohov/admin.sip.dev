@@ -1,7 +1,7 @@
 {% extends "base.twig" %}
 
 {% block header %}
-    {% if showTest %}
+    {% if GL_USER_IS_LOGGED_IN and categoryHasQuestions %}
         <link rel="stylesheet" href="/assets/css/test-form.css"/>
         <script type="text/javascript" src="/assets/js/test-form.js"></script>
     {% endif %}
@@ -32,7 +32,7 @@
 
     </div>
 
-    {% if showTest %}
+    {% if GL_USER_IS_LOGGED_IN and categoryHasQuestions %}
         <hr/>
         {% include "test/screen.twig" with {'startUrl': startUrl, 'completeUrl': completeUrl} only %}
     {% endif %}

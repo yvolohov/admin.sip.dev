@@ -34,7 +34,7 @@ class AuthController
     {
         $sessionModel = new SessionModel($app['session']);
         $sessionModel->removeUser();
-        return new RedirectResponse('/login');
+        return new RedirectResponse('/');
     }
 
     public function checkAuth(Request $request, Application $app)
@@ -44,5 +44,11 @@ class AuthController
         if (!$sessionModel->hasUser()) {
             return new RedirectResponse('/login');
         }
+    }
+
+    public function setTwigGlobals(Request $request, Application $app)
+    {
+        $sessionModel = new SessionModel($app['session']);
+        $app['twig']->addGlobal('GL_USER_IS_LOGGED_IN', $sessionModel->hasUser());
     }
 }

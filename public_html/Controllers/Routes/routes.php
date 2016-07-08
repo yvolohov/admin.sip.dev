@@ -5,7 +5,9 @@ namespace Sip\Controllers\Routes;
 function setRoutes($app)
 {
     $authMethod = 'Sip\Controllers\AuthController::checkAuth';
+    $twigGlobalsMethod = 'Sip\Controllers\AuthController::setTwigGlobals';
 
+    $app->before($twigGlobalsMethod);
     setAuthRoutes($app);
     setCategoriesRoutes($app, $authMethod);
     setCategoryRoutes($app, $authMethod);
@@ -27,10 +29,8 @@ function setAuthRoutes($app)
 function setCategoriesRoutes($app, $authMethod)
 {
     $method = 'Sip\Controllers\CategoriesController::showTree';
-    $app->get('/', $method)
-        ->before($authMethod);
-    $app->get('/grammar-rules/show-tree/', $method)
-        ->before($authMethod);
+    $app->get('/', $method);
+    $app->get('/grammar-rules/show-tree/', $method);
 
     $method = 'Sip\Controllers\CategoriesController::editTree';
     $app->get('/categories/edit-tree/', $method)
@@ -41,12 +41,10 @@ function setCategoryRoutes($app, $authMethod)
 {
     $method = 'Sip\Controllers\CategoryController::show';
     $app->get('/grammar-rule/show/{categoryId}/', $method)
-        ->assert('categoryId', '\d+')
-        ->before($authMethod);
+        ->assert('categoryId', '\d+');
     $app->get('/grammar-rule/show/{categoryId}/{categoryName}/', $method)
         ->assert('categoryId', '\d+')
-        ->assert('categoryName', '(\w|-)+')
-        ->before($authMethod);
+        ->assert('categoryName', '(\w|-)+');
 
     $method = 'Sip\Controllers\CategoryController::newEdit';
     $app->match('/category/new/', $method)

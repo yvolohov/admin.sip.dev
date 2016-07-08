@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Silex\Application;
 use Sip\Models\CategoryModel;
 use Sip\Forms\CategoryForm;
-use Sip\Models\SessionModel;
 
 class CategoryController
 {
@@ -26,8 +25,6 @@ class CategoryController
         }
 
         $categoryWithAncestors = $categoryModel->getCategoryAncestors($categoryId);
-        $sessionModel = new SessionModel($app['session']);
-        $userIsLoggedIn = $sessionModel->hasUser();
         $categoryHasQuestions = $categoryModel->getQuestionsCountInCategory($categoryId) > 0;
 
         return $app['twig']->render(
@@ -36,7 +33,7 @@ class CategoryController
                 'categories' => $categoryWithAncestors,
                 'startUrl' => "/test/start/{$categoryId}/",
                 'completeUrl' => "/test/complete/{$categoryId}/",
-                'showTest' => ($userIsLoggedIn && $categoryHasQuestions)
+                'categoryHasQuestions' => $categoryHasQuestions
             )
         );
     }

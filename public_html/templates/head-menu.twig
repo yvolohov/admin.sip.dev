@@ -1,22 +1,39 @@
-<nav>
-    <ul class="h-menu block-shadow-impact">
-        <li class="{{ (activePage == '/grammar-rules/show-tree/') ? 'active' : '' }}">
-            <a href="/grammar-rules/show-tree/">Rules tree</a>
-        </li>
-        <li class="{{ (activePage == '/categories/edit-tree/') ? 'active' : '' }}">
-            <a href="/categories/edit-tree/">Categories tree</a>
-        </li>
-        <li class="{{ (activePage == '/questions/show-tree/') ? 'active' : '' }}">
-            <a href="/questions/show-tree/">Questions tree</a>
-        </li>
-        <li class="{{ (activePage == '/questions/show/') ? 'active' : '' }}">
-            <a href="/questions/show/">Questions list</a>
-        </li>
-        <li class="{{ (activePage == '/test/page/') ? 'active' : '' }}">
-            <a href="/test/page/">Test page</a>
-        </li>
-        <li class="place-right">
-            <a href="/logout">Logout</a>
-        </li>
-    </ul>
-</nav>
+{% if GL_USER_IS_LOGGED_IN %}
+
+    <nav>
+        <ul class="h-menu block-shadow-impact">
+            <li class="{{ (activePage == '/grammar-rules/show-tree/') ? 'active' : '' }}">
+                <a href="/grammar-rules/show-tree/">Rules tree</a>
+            </li>
+            <li class="{{ (activePage == '/categories/edit-tree/') ? 'active' : '' }}">
+                <a href="/categories/edit-tree/">Categories tree</a>
+            </li>
+            <li class="{{ (activePage == '/questions/show-tree/') ? 'active' : '' }}">
+                <a href="/questions/show-tree/">Questions tree</a>
+            </li>
+            <li class="{{ (activePage == '/questions/show/') ? 'active' : '' }}">
+                <a href="/questions/show/">Questions list</a>
+            </li>
+            <li class="{{ (activePage == '/test/page/') ? 'active' : '' }}">
+                <a href="/test/page/">Test page</a>
+            </li>
+            <li class="place-right">
+                <a href="/logout">Logout</a>
+            </li>
+        </ul>
+    </nav>
+
+{% else %}
+
+    <nav>
+        <ul class="h-menu block-shadow-impact">
+            <li class="{{ (activePage == '/grammar-rules/show-tree/') ? 'active' : '' }}">
+                <a href="/grammar-rules/show-tree/">Rules tree</a>
+            </li>
+            <li class="place-right">
+                <a href="/login">Login</a>
+            </li>
+        </ul>
+    </nav>
+
+{% endif %}
