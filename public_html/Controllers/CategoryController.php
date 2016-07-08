@@ -12,8 +12,8 @@ class CategoryController
 {
     public function show(Request $request, Application $app, $categoryId, $categoryName=Null)
     {
-        $model = new CategoryModel($app['db']);
-        $category = $model->getCategoryById($categoryId);
+        $categoryModel = new CategoryModel($app['db']);
+        $category = $categoryModel->getCategoryById($categoryId);
 
         if ($category == Null) {
             $app->abort(404);
@@ -25,8 +25,10 @@ class CategoryController
             return $app->redirect("/grammar-rule/show/{$categoryId}/{$categoryDBName}");
         }
 
-        $categoryWithAncestors = $model->getCategoryAncestors($categoryId);
+        $categoryWithAncestors = $categoryModel->getCategoryAncestors($categoryId);
         $sessionModel = new SessionModel($app['session']);
+        $userIsLoggedIn = $sessionModel->hasUser();
+        $categoryHasQuestions = $categoryModel->getQuestionsCountInCategory($categoryId) > 0;
 
         return $app['twig']->render(
             'category/show.twig',
@@ -34,7 +36,7 @@ class CategoryController
                 'categories' => $categoryWithAncestors,
                 'startUrl' => "/test/start/{$categoryId}/",
                 'completeUrl' => "/test/complete/{$categoryId}/",
-                'hasUser' => $sessionModel->hasUser()
+                'showTest' => ($userIsLoggedIn && $categoryHasQuestions)
             )
         );
     }

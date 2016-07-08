@@ -212,4 +212,14 @@ class CategoryModel extends BaseModel
         }
         return array_reverse($branch);
     }
+
+    public function getQuestionsCountInCategory($categoryId)
+    {
+        return $this->getDB()->fetchColumn(
+            'SELECT count(*) cnt FROM questions WHERE category_id = :category_id',
+            array(
+                'category_id' => $categoryId
+            )
+        );
+    }
 }
