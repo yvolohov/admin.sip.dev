@@ -13,7 +13,7 @@ class LoginForm extends BaseForm
         $this->setField('email', 'Email', 'text', '', array(
             new Assert\Email()
         ));
-        $this->setField('password', 'Password', 'password', array(
+        $this->setField('password', 'Пароль', 'password', array(
             new Assert\NotBlank()
         ));
     }
