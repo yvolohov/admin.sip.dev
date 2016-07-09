@@ -11,25 +11,25 @@ class CategoryForm extends BaseForm
     public function __construct()
     {
         parent::__construct('category');
-        $this->setField('id', 'Category id', 'hidden', '', array(
+        $this->setField('id', 'Id', 'hidden', '', array(
             new Assert\Regex(array('pattern' => '/^(|\d+)$/'))
         ));
-        $this->setField('url_name', 'URL name', 'text', '', array(
+        $this->setField('url_name', 'Имя для URL', 'text', '', array(
             new Assert\NotBlank(),
             new Assert\Regex(array('pattern' => '/^(\w|-)+$/'))
         ));
-        $this->setField('foreign_name', 'Foreign name', 'text', '', array(
+        $this->setField('foreign_name', 'Имя на изучаемом языке', 'text', '', array(
             new Assert\NotBlank()
         ));
-        $this->setField('native_name', 'Native name', 'text', '', array(
+        $this->setField('native_name', 'Имя на базовом языке', 'text', '', array(
             new Assert\NotBlank()
         ));
-        $this->setField('sort_field', 'Sort field', 'text', 0, array(
+        $this->setField('sort_field', 'Поле сортировки', 'text', 0, array(
             new Assert\Type(array('type' => 'numeric')),
             new Assert\GreaterThanOrEqual(array('value' => 0))
         ));
-        $this->setField('description', 'Description', 'textarea', '');
-        $this->setSelectField('parent_id', 'Parent category', 0, array(), array(
+        $this->setField('description', 'Описание', 'textarea', '');
+        $this->setSelectField('parent_id', 'Родительская категория', 0, array(), array(
             new Assert\Type(array('type' => 'numeric')),
             new Assert\GreaterThanOrEqual(array('value' => 0))
         ));
