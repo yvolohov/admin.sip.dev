@@ -14,6 +14,7 @@ function setRoutes($app)
     setQuestionsRoutes($app, $authMethod);
     setQuestionRoutes($app, $authMethod);
     setTestRoutes($app, $authMethod);
+    setAssistantRoutes($app, $authMethod);
 }
 
 function setAuthRoutes($app)
@@ -107,5 +108,12 @@ function setTestRoutes($app, $authMethod)
         ->before($authMethod);
     $app->get('/test/complete/{categoryId}/', $method)
         ->assert('categoryId', '\d+')
+        ->before($authMethod);
+}
+
+function setAssistantRoutes($app, $authMethod)
+{
+    $method = 'Sip\Controllers\AssistantController::assistant';
+    $app->get('/assistant/', $method)
         ->before($authMethod);
 }
