@@ -49,22 +49,20 @@
                 <table class="table hovered striped">
                     <thead>
                     <tr>
-                        <th>Категория</th>
+                        <th>Ключи</th>
                         <th>Изучаемый язык</th>
                         <th>Базовый язык</th>
-                        <th>Шаблоны</th>
-                        <th>Предложения</th>
+                        <th>Строки</th>
                         <th>Открыть</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for question in questions %}
                         <tr>
-                            <td>{{ question.category }}</td>
+                            <td>{{ question.keywords }}</td>
                             <td>{{ question.foreign_sentence }}</td>
                             <td>{{ question.native_sentence }}</td>
-                            <td>{{ question.templates_cnt }}</td>
-                            <td>{{ question.sentences_cnt }}</td>
+                            <td>{{ question.templates_cnt }} / {{ question.sentences_cnt }}</td>
                             <td>
                                 <a href="/question/edit/{{ question.id }}/" class="button small-button rounded">
                                     Открыть

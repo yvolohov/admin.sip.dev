@@ -100,11 +100,12 @@ class QuestionModel extends BaseModel
     {
         $conn = $this->getDB();
         $conn->executeUpdate(
-            'INSERT INTO questions (foreign_sentence, native_sentence,
+            'INSERT INTO questions (keywords, foreign_sentence, native_sentence,
             templates_cnt, sentences_cnt, category_id, created, updated)
-            VALUES (:foreign_sentence, :native_sentence, :templates_cnt,
+            VALUES (:keywords, :foreign_sentence, :native_sentence, :templates_cnt,
             :sentences_cnt, :category_id, NOW(), NOW())',
             array(
+                'keywords' => $questionForm->getParam('keywords', 'value'),
                 'foreign_sentence' => $questionForm->getParam('foreign_sentence', 'value'),
                 'native_sentence' => $questionForm->getParam('native_sentence', 'value'),
                 'templates_cnt' => count($questionForm->getParam('templates_list', 'value')),
@@ -119,11 +120,12 @@ class QuestionModel extends BaseModel
     {
         $id = $questionForm->getParam('id', 'value');
         $this->getDB()->executeUpdate(
-            'UPDATE questions SET foreign_sentence = :foreign_sentence,
+            'UPDATE questions SET keywords = :keywords, foreign_sentence = :foreign_sentence,
             native_sentence = :native_sentence, templates_cnt = :templates_cnt,
             sentences_cnt = :sentences_cnt, category_id = :category_id,
             updated = NOW() WHERE id = :id',
             array(
+                'keywords' => $questionForm->getParam('keywords', 'value'),
                 'foreign_sentence' => $questionForm->getParam('foreign_sentence', 'value'),
                 'native_sentence' => $questionForm->getParam('native_sentence', 'value'),
                 'templates_cnt' => count($questionForm->getParam('templates_list', 'value')),

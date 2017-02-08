@@ -21,6 +21,7 @@ class QuestionForm extends BaseForm
             new Assert\Type(array('type' => 'numeric')),
             new Assert\GreaterThanOrEqual(array('value' => 1))
         ));
+        $this->setField('keywords', 'Ключи', 'text', '');
         $this->setField('foreign_sentence', 'Пример на изучаемом языке', 'text', '');
         $this->setField('native_sentence', 'Пример на базовом языке', 'text', '');
         $this->setListField('templates_list');

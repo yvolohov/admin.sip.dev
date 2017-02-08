@@ -29,9 +29,9 @@ CREATE TABLE IF NOT EXISTS `descriptions` (
 
 CREATE TABLE IF NOT EXISTS `questions` (
     `id` int(11) UNSIGNED AUTO_INCREMENT NOT NULL,
+    `keywords` varchar(255) DEFAULT '' NOT NULL,
     `native_sentence` varchar(255) DEFAULT '' NOT NULL,
     `foreign_sentence` varchar(255) DEFAULT '' NOT NULL,
-    `hint` varchar(255) DEFAULT '' NOT NULL,
     `templates_cnt` int(11) UNSIGNED DEFAULT '0' NOT NULL,
     `sentences_cnt` int(11) UNSIGNED DEFAULT '0' NOT NULL,
     `category_id` int(11) UNSIGNED NOT NULL,

@@ -40,7 +40,7 @@ class QuestionsModel extends BaseModel
     {
         $db = $this->getDB();
         $stm = $db->prepare(
-            'SELECT que.id, que.foreign_sentence,
+            'SELECT que.id, que.keywords, que.foreign_sentence,
             que.native_sentence, que.templates_cnt,
             que.sentences_cnt, IFNULL(cat.foreign_name, "") category
             FROM questions que
