@@ -101,13 +101,14 @@ class QuestionModel extends BaseModel
         $conn = $this->getDB();
         $conn->executeUpdate(
             'INSERT INTO questions (keywords, foreign_sentence, native_sentence,
-            templates_cnt, sentences_cnt, category_id, created, updated)
+            source, templates_cnt, sentences_cnt, category_id, created, updated)
             VALUES (:keywords, :foreign_sentence, :native_sentence, :templates_cnt,
             :sentences_cnt, :category_id, NOW(), NOW())',
             array(
                 'keywords' => $questionForm->getParam('keywords', 'value'),
                 'foreign_sentence' => $questionForm->getParam('foreign_sentence', 'value'),
                 'native_sentence' => $questionForm->getParam('native_sentence', 'value'),
+                'source' => $questionForm->getParam('source', 'value'),
                 'templates_cnt' => count($questionForm->getParam('templates_list', 'value')),
                 'sentences_cnt' => count($questionForm->getParam('sentences_list', 'value')),
                 'category_id' => $questionForm->getParam('category_id', 'value')
@@ -121,13 +122,14 @@ class QuestionModel extends BaseModel
         $id = $questionForm->getParam('id', 'value');
         $this->getDB()->executeUpdate(
             'UPDATE questions SET keywords = :keywords, foreign_sentence = :foreign_sentence,
-            native_sentence = :native_sentence, templates_cnt = :templates_cnt,
+            native_sentence = :native_sentence, templates_cnt = :templates_cnt, source = :source,
             sentences_cnt = :sentences_cnt, category_id = :category_id,
             updated = NOW() WHERE id = :id',
             array(
                 'keywords' => $questionForm->getParam('keywords', 'value'),
                 'foreign_sentence' => $questionForm->getParam('foreign_sentence', 'value'),
                 'native_sentence' => $questionForm->getParam('native_sentence', 'value'),
+                'source' => $questionForm->getParam('source', 'value'),
                 'templates_cnt' => count($questionForm->getParam('templates_list', 'value')),
                 'sentences_cnt' => count($questionForm->getParam('sentences_list', 'value')),
                 'category_id' => $questionForm->getParam('category_id', 'value'),

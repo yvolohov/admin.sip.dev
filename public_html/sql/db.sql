@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `questions` (
     `keywords` varchar(255) DEFAULT '' NOT NULL,
     `native_sentence` varchar(255) DEFAULT '' NOT NULL,
     `foreign_sentence` varchar(255) DEFAULT '' NOT NULL,
+    `source` varchar(50) DEFAULT '' NOT NULL,
     `templates_cnt` int(11) UNSIGNED DEFAULT '0' NOT NULL,
     `sentences_cnt` int(11) UNSIGNED DEFAULT '0' NOT NULL,
     `category_id` int(11) UNSIGNED NOT NULL,

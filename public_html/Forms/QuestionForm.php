@@ -24,6 +24,7 @@ class QuestionForm extends BaseForm
         $this->setField('keywords', 'Ключи', 'text', '');
         $this->setField('foreign_sentence', 'Пример на изучаемом языке', 'text', '');
         $this->setField('native_sentence', 'Пример на базовом языке', 'text', '');
+        $this->setField('source', 'Источник', 'text', '');
         $this->setListField('templates_list');
         $this->setListField('sentences_list');
     }

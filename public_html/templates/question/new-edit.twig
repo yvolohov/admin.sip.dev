@@ -82,6 +82,16 @@
 
             <div class="row">
                 <div class="cell">
+                    <div class="input-control input-text full-size">
+                        <label>{{ form.getParam('source', 'label') }}:</label>
+                        <input id="source" type="text" name="question[source]"
+                                value="{{ form.getParam('source', 'value') }}"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="cell">
                     <button class="button rounded" id="button-add-template" type="button">Добавить шаблон</button>
                     <button class="button rounded" id="button-remove-templates" type="button">Удалить шаблоны</button>
                     <button class="button rounded" id="button-fill-sentences" type="button">Создать предложения</button>
