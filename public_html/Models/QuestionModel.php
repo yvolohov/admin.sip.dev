@@ -102,7 +102,7 @@ class QuestionModel extends BaseModel
         $conn->executeUpdate(
             'INSERT INTO questions (keywords, foreign_sentence, native_sentence,
             source, templates_cnt, sentences_cnt, category_id, created, updated)
-            VALUES (:keywords, :foreign_sentence, :native_sentence, :templates_cnt,
+            VALUES (:keywords, :foreign_sentence, :native_sentence, :source, :templates_cnt,
             :sentences_cnt, :category_id, NOW(), NOW())',
             array(
                 'keywords' => $questionForm->getParam('keywords', 'value'),
