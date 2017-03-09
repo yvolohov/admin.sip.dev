@@ -1,9 +1,46 @@
 {% extends "base.twig" %}
 
+{% block header %}
+    <script type="text/javascript" src="/assets/js/assistant.js"></script>
+{% endblock %}
+
 {% block headMenu %}
     {% include "head-menu.twig" with {'activePage': '/assistant/'} only %}
 {% endblock %}
 
 {% block content %}
+    <div class="grid">
+        <div class="row">
+            <div class="cell">
+
+                <div class="grid">
+                    <div class="row">
+                        <div class="cell">
+                            <div class="input-control input-text textarea full-size">
+                                <label>Данные:</label>
+                                <textarea name="raw-data" style="height: 400px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="cell">
+                            <div class="input-control input-text textarea full-size">
+                                <label>Результат:</label>
+                                <textarea name="templates"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="cell">
+                            <button id="button_generate" type="button" class="button rounded primary">Создать шаблоны</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
