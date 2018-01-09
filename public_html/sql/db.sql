@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) UNSIGNED AUTO_INCREMENT NOT NULL,
   `login` varchar(200) NOT NULL,
-  `password` text DEFAULT '' NOT NULL,
+  `password` text NOT NULL,
   `role` enum('USER', 'ADMIN'),
   PRIMARY KEY (`id`),
   UNIQUE KEY (`login`)
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 
 CREATE TABLE IF NOT EXISTS `descriptions` (
     `id` int(11) UNSIGNED AUTO_INCREMENT NOT NULL,
-    `description` text DEFAULT '' NOT NULL,
+    `description` text NOT NULL,
     `category_id` int(11) UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY (`category_id`)
@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS `questions` (
     `templates_cnt` int(11) UNSIGNED DEFAULT '0' NOT NULL,
     `sentences_cnt` int(11) UNSIGNED DEFAULT '0' NOT NULL,
     `category_id` int(11) UNSIGNED NOT NULL,
-    `created` datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-    `updated` datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+    `created` datetime DEFAULT '1970-01-01 00:00:00' NOT NULL,
+    `updated` datetime DEFAULT '1970-01-01 00:00:00' NOT NULL,
     PRIMARY KEY (`id`),
     KEY(`category_id`)
 ) ENGINE = InnoDB;
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `tests` (
     `question_id` int(11) UNSIGNED NOT NULL,
     `is_selected` tinyint(1) UNSIGNED DEFAULT '0' NOT NULL,
     `passages_cnt` int(11) UNSIGNED DEFAULT '0' NOT NULL,
-    `first_passage` datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-    `last_passage` datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+    `first_passage` datetime DEFAULT '1970-01-01 00:00:00' NOT NULL,
+    `last_passage` datetime DEFAULT '1970-01-01 00:00:00' NOT NULL,
     PRIMARY KEY (`user_id`, `question_id`)
 ) ENGINE = InnoDB;

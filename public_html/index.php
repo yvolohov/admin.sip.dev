@@ -14,7 +14,7 @@ $dbOptions = array(
 );
 
 $configOptions = array(
-    'test_questions_count' => 20,
+    'test_questions_count' => 15,
     'test_sentences_count' => 2
 );
 
