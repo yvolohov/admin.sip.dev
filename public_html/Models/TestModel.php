@@ -142,7 +142,7 @@ class TestModel extends BaseModel
             'INSERT INTO tests (user_id, question_id, is_selected,
             passages_cnt, first_passage, last_passage) VALUES ';
         $requestRow =
-            '(%d, %d, %d, %d, "0000-00-00 00:00:00", "0000-00-00 00:00:00")';
+            '(%d, %d, %d, %d, "1970-01-01 00:00:00", "1970-01-01 00:00:00")';
         $needComma = False;
 
         foreach ($testsTable as $row) {
@@ -162,7 +162,7 @@ class TestModel extends BaseModel
             ON (que.id = tst.question_id) ORDER BY last_passage, id
             LIMIT :questions_count'
         );
-        
+
         $stm->bindValue('user_id', $userId, \PDO::PARAM_INT);
         $stm->bindValue('questions_count', $questionsCount, \PDO::PARAM_INT);
         $stm->execute();
@@ -199,7 +199,7 @@ class TestModel extends BaseModel
             WHERE user_id = :user_id AND question_id = :question_id';
 
         foreach ($questions as $question) {
-            
+
             if (count($question['selected_sentences']) == 0) {
                 continue;
             }
@@ -247,7 +247,7 @@ class TestModel extends BaseModel
             'UPDATE tests SET
             passages_cnt = passages_cnt + 1,
             is_selected = 0,
-            first_passage = IF(first_passage = "0000-00-00 00:00:00", NOW(), first_passage),
+            first_passage = IF(first_passage = "1970-01-01 00:00:00", NOW(), first_passage),
             last_passage = NOW()
             WHERE user_id = :user_id AND is_selected > 0',
             array(
